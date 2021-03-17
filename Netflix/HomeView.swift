@@ -16,7 +16,7 @@ struct HomeView: View {
                     Spacer()
                     HStack(){
                         
-                        NavigationLink(destination: DetailsView()){
+                        NavigationLink(destination: DetailsView(movieID:"Making Their Mark", videoURL:"https://youtu.be/8jVuOheTNGQ", DetailsVM: DetailVM(ticker: "Making Their Mark"))){
                             Text("Detail")
                         }
                         
