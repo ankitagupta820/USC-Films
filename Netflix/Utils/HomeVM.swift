@@ -117,7 +117,6 @@ class HomeVM: ObservableObject{
         }
     }
     
-    
     func formatDate(date: String)-> String{
         
        let dateComponets =  date.split(separator: "-")

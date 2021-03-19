@@ -21,10 +21,10 @@ struct HomeView: View {
                 VStack(alignment: .leading){
                     Text("Now Playing").font(.system(size: 25.0, design:.rounded)).fontWeight(.bold)
                     ScrollView(.horizontal){
-                        HStack(spacing: 30){
+                        HStack(alignment: .top, spacing: 30){
                             
                             let NowPlaying: [Movie] = HomeVM.nowPlaying
-                           
+                            
                             ForEach(NowPlaying){movie in
                                 
                                 NavigationLink(destination: DetailsView(movieID:movie.title, videoURL:"https://youtu.be/8jVuOheTNGQ", DetailsVM: DetailVM(ticker: movie.title))){
@@ -32,19 +32,22 @@ struct HomeView: View {
                                     VStack(){
                                         KFImage(URL(string: movie.imgURL))
                                             .resizable()
-                                            .scaledToFill()
-                                            .cornerRadius(5)
-                                            .frame(width:150)
+                                            .aspectRatio(contentMode: .fill)
+                                            .clipped()
+                                            .frame(width: 150, height: 200)
+                                            .cornerRadius(10)
                                         
                                         Text(movie.title).font(.caption).fixedSize(horizontal: false, vertical: true).multilineTextAlignment(.center)
                                         Text("("+movie.year+")").font(.caption).multilineTextAlignment(.center)
-                                    }.frame(width: 150)
+                                    }
                                     
-                                }.background(Color.white)
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                                .background(Color.white)
                                 .contentShape(RoundedRectangle(cornerRadius: 10))
                                 .contextMenu(menuItems: {
                                     let source = movie.imgURL
-                            
+                                    
                                     
                                     //Twitter
                                     let TwitterShareString = String("https://twitter.com/intent/tweet?text=Check out this link: &url=\(source)&hashtags=CSCI571MovieDBApp")
@@ -62,7 +65,7 @@ struct HomeView: View {
                                     
                                     
                                     Button {
-                                        //add or remove to watchlist
+                                  
                                     } label: {
                                         Label("Add to watchList", systemImage:"bookmark.fill")
                                     }
@@ -82,8 +85,7 @@ struct HomeView: View {
                 VStack(alignment: .leading){
                     Text("Top Rated").font(.system(size: 25.0, design:.rounded)).fontWeight(.bold)
                     ScrollView(.horizontal){
-                        HStack(spacing: 30){
-                            
+                        HStack(alignment: .top, spacing: 30){
                             let topRated:[Movie] = HomeVM.topRated
                             ForEach(topRated){movie in
                                 
@@ -92,15 +94,18 @@ struct HomeView: View {
                                     VStack(){
                                         KFImage(URL(string: movie.imgURL)).renderingMode(.original)
                                             .resizable()
-                                            .scaledToFill()
-                                            .cornerRadius(5)
-                                            .frame(height: 150)
-                                            
+                                            .aspectRatio(contentMode: .fill)
+                                            .clipped()
+                                            .frame(width: 100, height: 150)
+                                            .cornerRadius(10)
+                                        
                                         Text(movie.title).font(.caption).fixedSize(horizontal: false, vertical: true) .multilineTextAlignment(.center)
                                         Text("("+movie.year+")").font(.caption).multilineTextAlignment(.center)
                                     }.frame(width: 100)
                                     
-                                }.background(Color.white)
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                                .background(Color.white)
                                 .contentShape(RoundedRectangle(cornerRadius: 10))
                                 .contextMenu(menuItems: {
                                     let source = movie.imgURL
@@ -139,25 +144,27 @@ struct HomeView: View {
                 VStack(alignment: .leading){
                     Text("Popular").font(.system(size: 25.0, design:.rounded)).fontWeight(.bold)
                     ScrollView(.horizontal){
-                        HStack(spacing: 30){
+                        HStack(alignment: .top,spacing: 30){
                             
                             let popular:[Movie] = HomeVM.popular
                             ForEach(popular){movie in
-                                
                                 
                                 NavigationLink(destination: DetailsView(movieID:movie.title, videoURL:movie.imgURL, DetailsVM: DetailVM(ticker: movie.title))){
                                     
                                     VStack(){
                                         KFImage(URL(string: movie.imgURL))
                                             .resizable()
-                                            .scaledToFill()
-                                            .cornerRadius(5)
-                                            .frame(height: 150)
+                                            .aspectRatio(contentMode: .fill)
+                                            .clipped()
+                                            .frame(width: 100, height: 150)
+                                            .cornerRadius(10)
                                         Text(movie.title).font(.caption).fixedSize(horizontal: false, vertical: true).multilineTextAlignment(.center)
                                         Text("("+movie.year+")").font(.caption).multilineTextAlignment(.center)
                                     }.frame(width: 100)
                                     
-                                }.background(Color.white)
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                                .background(Color.white)
                                 .contentShape(RoundedRectangle(cornerRadius: 10))
                                 .contextMenu(menuItems: {
                                     let source = movie.imgURL
@@ -176,7 +183,7 @@ struct HomeView: View {
                                     let YoutubeShareUrl: URL = URL(string: source)!
                                     
                                     Button {
-                                       //bookmark
+                                        //bookmark
                                     } label: {
                                         Label("Add to watchList", systemImage:"bookmark.fill")
                                     }
