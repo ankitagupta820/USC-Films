@@ -9,17 +9,34 @@ import Foundation
 import SwiftUI
 
 struct WatchlistView: View {
-    var columns = Array(repeating: GridItem(.flexible(), spacing: 10), count: 3)
-    @ObservedObject var WatchListVM : WatchListVM
+    var columns = Array(repeating: GridItem(.flexible(), spacing: 3), count: 3)
+    @ObservedObject var watchListVM : WatchListVM
     var body: some View {
-        LazyVGrid(columns: columns, spacing: 10) {
-            ForEach(WatchListVM.watchList) { item in
-                RemoteImage(url: item.imgURL)
-                    .aspectRatio(contentMode: .fit)
+        NavigationView {
+            VStack {
+                LazyVGrid(columns: columns, spacing: 3) {
+                    ForEach(watchListVM.watchList) { item in
+                        NavigationLink(destination: DetailsView(movieID:item.title, videoURL:item.imgURL, DetailsVM: DetailVM(ticker: item.title))) {
+                            RemoteImage(url: item.imgURL)
+                                .aspectRatio(contentMode: .fit)
+                                .onDrag({
+                                    print(item.title)
+                                    watchListVM.currentMovieTV = item
+                                    return NSItemProvider(contentsOf: URL(string: item.title))!
+                                })
+                                .onDrop(of: [.text], delegate: DropViewDelegate(item: item, watchListVM: watchListVM))
+                                .highPriorityGesture(DragGesture.init())
+                        }
+                       
+                    }
+                }
+                .padding(.leading)
+                .padding(.trailing)
             }
+            .navigationBarTitle("Watch List")
         }
-        Spacer()
-        .navigationBarTitle("WatchList")
+        
+        
         
     }}
 

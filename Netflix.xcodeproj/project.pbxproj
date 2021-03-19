@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		6A199CC6384DFA958F6D4411 /* Pods_NetflixTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6593D4D771C72F48CDAA02B5 /* Pods_NetflixTests.framework */; };
+		834321AF26055005006A5A9B /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834321AD26055005006A5A9B /* SearchBar.swift */; };
+		834321B026055005006A5A9B /* WatchListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834321AE26055005006A5A9B /* WatchListVM.swift */; };
+		834321B526055020006A5A9B /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834321B426055020006A5A9B /* SearchResultView.swift */; };
+		834321BD260554B7006A5A9B /* DropViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834321BC260554B7006A5A9B /* DropViewDelegate.swift */; };
 		887F47E1389CD14B40E9C40B /* Pods_Netflix.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A5272DEE9EB028104A73AE1 /* Pods_Netflix.framework */; };
 		DFC5F0432601C3B000A4F15C /* DetailsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC5F0422601C3B000A4F15C /* DetailsVM.swift */; };
 		DFC5F0482601C40A00A4F15C /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC5F0472601C40A00A4F15C /* CardView.swift */; };
@@ -58,6 +62,10 @@
 		462D4B91987C0B7125251858 /* Pods-Netflix.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Netflix.release.xcconfig"; path = "Target Support Files/Pods-Netflix/Pods-Netflix.release.xcconfig"; sourceTree = "<group>"; };
 		6593D4D771C72F48CDAA02B5 /* Pods_NetflixTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NetflixTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6980CBA016DC01BDCC369B37 /* Pods-Netflix.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Netflix.debug.xcconfig"; path = "Target Support Files/Pods-Netflix/Pods-Netflix.debug.xcconfig"; sourceTree = "<group>"; };
+		834321AD26055005006A5A9B /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		834321AE26055005006A5A9B /* WatchListVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchListVM.swift; sourceTree = "<group>"; };
+		834321B426055020006A5A9B /* SearchResultView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultView.swift; sourceTree = "<group>"; };
+		834321BC260554B7006A5A9B /* DropViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropViewDelegate.swift; sourceTree = "<group>"; };
 		8A5272DEE9EB028104A73AE1 /* Pods_Netflix.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Netflix.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFC5F0422601C3B000A4F15C /* DetailsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsVM.swift; sourceTree = "<group>"; };
 		DFC5F0472601C40A00A4F15C /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -143,6 +151,8 @@
 		DFC5F0412601C3A200A4F15C /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				834321AD26055005006A5A9B /* SearchBar.swift */,
+				834321AE26055005006A5A9B /* WatchListVM.swift */,
 				DFC5F0422601C3B000A4F15C /* DetailsVM.swift */,
 				DFC5F0472601C40A00A4F15C /* CardView.swift */,
 				DFC5F0512601C49C00A4F15C /* RemoteImage.swift */,
@@ -151,6 +161,7 @@
 				DFC5F0602601C4DE00A4F15C /* CastHashableArray.swift */,
 				DFC5F06F2601C5BB00A4F15C /* DefaultsStorage.swift */,
 				F01ECD462604417000616621 /* HomeVM.swift */,
+				834321BC260554B7006A5A9B /* DropViewDelegate.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -182,6 +193,7 @@
 			children = (
 				DFC5F0412601C3A200A4F15C /* Utils */,
 				F025264E25FC578100DD4061 /* NetflixApp.swift */,
+				834321B426055020006A5A9B /* SearchResultView.swift */,
 				F025265025FC578100DD4061 /* HomeView.swift */,
 				F025267C25FC580900DD4061 /* DetailsView.swift */,
 				F025268725FC602000DD4061 /* SearchView.swift */,
@@ -469,6 +481,8 @@
 			files = (
 				DFC5F0522601C49C00A4F15C /* RemoteImage.swift in Sources */,
 				DFC5F0482601C40A00A4F15C /* CardView.swift in Sources */,
+				834321B026055005006A5A9B /* WatchListVM.swift in Sources */,
+				834321AF26055005006A5A9B /* SearchBar.swift in Sources */,
 				DFC5F05C2601C4CB00A4F15C /* RecommendedMovie.swift in Sources */,
 				F025268D25FC603900DD4061 /* WatchlistView.swift in Sources */,
 				DFC5F0612601C4DE00A4F15C /* CastHashableArray.swift in Sources */,
@@ -477,7 +491,9 @@
 				F025268825FC602000DD4061 /* SearchView.swift in Sources */,
 				F025265125FC578100DD4061 /* HomeView.swift in Sources */,
 				F01ECD472604417000616621 /* HomeVM.swift in Sources */,
+				834321B526055020006A5A9B /* SearchResultView.swift in Sources */,
 				F025264F25FC578100DD4061 /* NetflixApp.swift in Sources */,
+				834321BD260554B7006A5A9B /* DropViewDelegate.swift in Sources */,
 				DFC5F0572601C4B300A4F15C /* ReviewCard.swift in Sources */,
 				F025267D25FC580900DD4061 /* DetailsView.swift in Sources */,
 				DFC5F0432601C3B000A4F15C /* DetailsVM.swift in Sources */,

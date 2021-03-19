@@ -21,7 +21,7 @@ struct NetflixApp: App {
                 HomeView(HomeVM: HomeVM())
                     .tabItem{Label("Home", systemImage:"house")}
                     .tag(2)
-                WatchlistView(WatchListVM: WatchListVM())
+                WatchlistView(watchListVM: WatchListVM())
                     .tabItem{Label("WatchList", systemImage:"heart")}
                     .tag(3)
             }
