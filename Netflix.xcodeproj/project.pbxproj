@@ -17,6 +17,7 @@
 		DFC5F05C2601C4CB00A4F15C /* RecommendedMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC5F05B2601C4CB00A4F15C /* RecommendedMovie.swift */; };
 		DFC5F0612601C4DE00A4F15C /* CastHashableArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC5F0602601C4DE00A4F15C /* CastHashableArray.swift */; };
 		DFC5F0702601C5BB00A4F15C /* DefaultsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC5F06F2601C5BB00A4F15C /* DefaultsStorage.swift */; };
+		F01ECD472604417000616621 /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01ECD462604417000616621 /* HomeVM.swift */; };
 		F025264F25FC578100DD4061 /* NetflixApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F025264E25FC578100DD4061 /* NetflixApp.swift */; };
 		F025265125FC578100DD4061 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F025265025FC578100DD4061 /* HomeView.swift */; };
 		F025265325FC578500DD4061 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F025265225FC578500DD4061 /* Assets.xcassets */; };
@@ -67,6 +68,7 @@
 		DFC5F0602601C4DE00A4F15C /* CastHashableArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastHashableArray.swift; sourceTree = "<group>"; };
 		DFC5F06F2601C5BB00A4F15C /* DefaultsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsStorage.swift; sourceTree = "<group>"; };
 		ED802C4C7DFF4B75D2D8F239 /* Pods-NetflixTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetflixTests.debug.xcconfig"; path = "Target Support Files/Pods-NetflixTests/Pods-NetflixTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F01ECD462604417000616621 /* HomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
 		F025264B25FC578100DD4061 /* Netflix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Netflix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F025264E25FC578100DD4061 /* NetflixApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetflixApp.swift; sourceTree = "<group>"; };
 		F025265025FC578100DD4061 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				DFC5F05B2601C4CB00A4F15C /* RecommendedMovie.swift */,
 				DFC5F0602601C4DE00A4F15C /* CastHashableArray.swift */,
 				DFC5F06F2601C5BB00A4F15C /* DefaultsStorage.swift */,
+				F01ECD462604417000616621 /* HomeVM.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -473,6 +476,7 @@
 				DFC5F04D2601C43300A4F15C /* StarRating.swift in Sources */,
 				F025268825FC602000DD4061 /* SearchView.swift in Sources */,
 				F025265125FC578100DD4061 /* HomeView.swift in Sources */,
+				F01ECD472604417000616621 /* HomeVM.swift in Sources */,
 				F025264F25FC578100DD4061 /* NetflixApp.swift in Sources */,
 				DFC5F0572601C4B300A4F15C /* ReviewCard.swift in Sources */,
 				F025267D25FC580900DD4061 /* DetailsView.swift in Sources */,
