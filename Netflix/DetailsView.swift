@@ -56,8 +56,7 @@ struct DetailsView: View {
             GridItem(.flexible()),
             GridItem(.flexible()),
             GridItem(.flexible())
-           
-            
+        
         ]
         let rows = [
             GridItem(.flexible()), //spacing; between rows
@@ -75,7 +74,7 @@ struct DetailsView: View {
                 Text(DetailsVM.movieTVShowName)
                     .font(.title)
                     .bold()
-                    .foregroundColor(Color.white)
+                    .foregroundColor(Color.black)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
                     .padding(.leading, 20)
                     .padding(.bottom,5)
