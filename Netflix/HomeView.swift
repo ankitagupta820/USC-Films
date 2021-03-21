@@ -1,10 +1,10 @@
+
 //
 //  ContentView.swift
 //  Netflix
 //
 //  Created by Ankita Gupta on 12/03/21.
 //
-
 import SwiftUI
 import Kingfisher
 
@@ -69,7 +69,7 @@ struct Carousal: View{
                 let NowPlaying: [Movie] = Listing
                 ImageCarouselView(numberOfImages: NowPlaying.count) {
                     ForEach(NowPlaying){movie in
-                        NavigationLink(destination: DetailsView(movieID:movie.title, videoURL:"https://youtu.be/8jVuOheTNGQ", DetailsVM: DetailVM(ticker: movie.title))){
+                        NavigationLink(destination: DetailsView(movieID:movie.movieID, videoURL:"https://youtu.be/8jVuOheTNGQ", DetailsVM: DetailVM(movieID: movie.movieID))){
                             ZStack{
                                 KFImage(URL(string: movie.imgURL))
                                     .resizable()
@@ -107,7 +107,7 @@ struct CategoryList: View{
                     
                     ForEach(Listing){movie in
                         
-                        NavigationLink(destination: DetailsView(movieID:movie.title, videoURL:movie.imgURL, DetailsVM: DetailVM(ticker: movie.title))){
+                        NavigationLink(destination: DetailsView(movieID:movie.movieID, videoURL:movie.imgURL, DetailsVM: DetailVM(movieID: movie.movieID))){
                             VStack(){
                                 KFImage(URL(string: movie.imgURL))
                                     .resizable()

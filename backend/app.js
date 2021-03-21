@@ -25,7 +25,7 @@ app.use('/search', searchRouter);
 
 
 // remove this
-const port = 4000
+const port = 4001
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })

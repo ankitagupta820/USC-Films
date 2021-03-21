@@ -8,8 +8,8 @@
 import Foundation
 
 struct ReviewCard{
-    var reviewTitle: String
-    var rating: Int
+    
+    var rating: Float
     var reviewAuth: String
     var reviewDate: String
     var reviewText: String

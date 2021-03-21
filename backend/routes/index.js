@@ -3,7 +3,8 @@ let router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'MovieMania' });
+  res.send('About Page');
+  //res.send('index', { title: 'MovieMania' });
 });
 
 /* GET home router . */

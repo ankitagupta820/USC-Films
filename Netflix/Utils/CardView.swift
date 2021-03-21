@@ -14,35 +14,36 @@ struct CardView: View {
     
     var body: some View {
 
-            
-            VStack(alignment: .leading) {
-                Text(reviewCard.reviewTitle)
-                    .fontWeight(.bold)
-                    .font(.headline)
-                    
-                Text("By "+reviewCard.reviewAuth+" on "+String(self.changeDateFormat()))
-                        .padding(.bottom,1)
-                        .foregroundColor(Color.gray)
-                
-                StarRating(rating: .constant(reviewCard.rating))
-                    .padding(.bottom,2)
-              
-                Text(reviewCard.reviewText)
-                    .font(.body)
- 
-            }
-       
-         //   .contentShape(RoundedRectangle(cornerRadius: 50))
-          //  .background(Color.gray)
-           
-            
-           
-            
       
-        }
+                VStack(alignment: .leading) {
+                    Text("A review by "+reviewCard.reviewAuth)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color.black)
+                        .padding(.bottom,1)
+                    Text("Written by "+reviewCard.reviewAuth+" on "+String(self.changeDateFormat()))
+                            .padding(.bottom,1)
+                            .foregroundColor(Color.gray)
+                    
+                    (Text(Image(systemName: "star.fill")).foregroundColor(Color.red) + Text("\(String(format: "%.1f",(reviewCard.rating/2)))/5.0"))
+                        .padding(.bottom,1)
+//
+//                    HTMLView(htmlString: reviewCard.reviewText)
+//                        .font(.system(size: 25.0, design:.rounded))
+//                        .foregroundColor(Color.black)
+//                        .lineLimit(3)
+                    Text(reviewCard.reviewText)
+                        .font(.body)
+                        .foregroundColor(Color.black)
+                        .lineLimit(3)
+     
+                }
+           
+      
+    }
   //  }
     
     func changeDateFormat() -> String{
+        //TODO: Change as per "2016-04-29T18:08:41.892Z
         let months: [String:String] = [
             "01": "Jan",
             "02": "Feb",
@@ -57,11 +58,16 @@ struct CardView: View {
             "11": "Nov",
             "12": "Dec"
         ]
-        let dateArray = reviewCard.reviewDate.components(separatedBy: "/")
+        let dateArray = reviewCard.reviewDate.components(separatedBy: "T")
        // print(dateArray[1])
-        var dateString = months[String("03")] ?? nil
-        dateString = dateString!+" "+dateArray[2]+", "+dateArray[0]
-        return dateString!
+        let dArray=dateArray[0].components(separatedBy: "-")
+        
+        guard var month = months[dArray[1]] else { return "Jan" }
+        let year = dArray[0]
+        let date=dArray[2]
+    
+        let dateString = month+" "+date+", "+year//dateString!+" "+dateArray[2]+", "+dateArray[0]
+        return dateString
         
     }
 }

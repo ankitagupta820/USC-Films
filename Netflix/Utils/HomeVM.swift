@@ -4,14 +4,13 @@
 //
 //  Created by Ankita Gupta on 18/03/21.
 //
-
 import Foundation
 import SwiftyJSON
 import Alamofire
 
 class HomeVM: ObservableObject{
     
-    let host:String = "http://localhost:4000/"
+    let host:String = "http://10.25.152.245:4001/"
     var isLoaded: Bool
     
     @Published var nowPlayingMovie: [Movie]
@@ -26,13 +25,13 @@ class HomeVM: ObservableObject{
     init(){
         self.isLoaded=false
         
-        self.nowPlayingMovie=[Movie(title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL")]
-        self.topRatedMovie=[Movie(title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL")]
-        self.popularMovie=[Movie(title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL")]
+        self.nowPlayingMovie=[Movie(movieID: "278",title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL")]
+        self.topRatedMovie=[Movie(movieID: "278",title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL")]
+        self.popularMovie=[Movie(movieID: "278",title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL")]
         
-        self.airingToday = [Movie(title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL")]
-        self.topRatedTV = [Movie(title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL")]
-        self.popularTV = [Movie(title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL")]
+        self.airingToday = [Movie(movieID: "278",title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL")]
+        self.topRatedTV = [Movie(movieID: "278",title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL")]
+        self.popularTV = [Movie(movieID: "278",title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL")]
         fetchHomePageData()
     }
     
@@ -49,19 +48,23 @@ class HomeVM: ObservableObject{
         
         //Movie
         let urlMovie: String = host+"movies/now-playing"
+        debugPrint("urlMOvie "+urlMovie)
         AF.request(urlMovie, encoding:JSONEncoding.default).responseJSON { response in
             switch response.result{
+            
             case .success(let value):
                 let json = JSON(value)
                 let data = json["data"]
-                
+                debugPrint("Data ",data)
                 
                 var MoviesArray: [Movie] = []
                 for item in data.arrayValue {
                     let movieObj = Movie(
+                        movieID: item["id"].stringValue,
                         title: item["title"].stringValue,
                         year: self.formatDate(date: item["releaseDate"].stringValue),
                         imgURL: item["imageURL"].stringValue)
+                    
                     MoviesArray.append(movieObj)
                 }
                 self.nowPlayingMovie=MoviesArray
@@ -83,6 +86,7 @@ class HomeVM: ObservableObject{
                 var MoviesArray: [Movie] = []
                 for item in data.arrayValue {
                     let movieObj = Movie(
+                        movieID: item["id"].stringValue,
                         title: item["title"].stringValue,
                         year: self.formatDate(date: item["releaseDate"].stringValue),
                         imgURL: item["imageURL"].stringValue)
@@ -110,6 +114,7 @@ class HomeVM: ObservableObject{
                 var topRatedArray: [Movie] = []
                 for item in data.arrayValue {
                     let movieObj = Movie(
+                        movieID: item["id"].stringValue,
                         title: item["title"].stringValue,
                         year: self.formatDate(date: item["releaseDate"].stringValue),
                         imgURL: item["imageURL"].stringValue)
@@ -135,6 +140,7 @@ class HomeVM: ObservableObject{
                 var topRatedArray: [Movie] = []
                 for item in data.arrayValue {
                     let movieObj = Movie(
+                        movieID: item["id"].stringValue,
                         title: item["title"].stringValue,
                         year: self.formatDate(date: item["releaseDate"].stringValue),
                         imgURL: item["imageURL"].stringValue)
@@ -163,6 +169,7 @@ class HomeVM: ObservableObject{
                 var MoviesArray: [Movie] = []
                 for item in data.arrayValue {
                     let movieObj = Movie(
+                        movieID: item["id"].stringValue,
                         title: item["title"].stringValue,
                         year: self.formatDate(date: item["releaseDate"].stringValue),
                         imgURL: item["imageURL"].stringValue)
@@ -189,6 +196,7 @@ class HomeVM: ObservableObject{
                 var MoviesArray: [Movie] = []
                 for item in data.arrayValue {
                     let movieObj = Movie(
+                        movieID: item["id"].stringValue,
                         title: item["title"].stringValue,
                         year: self.formatDate(date: item["releaseDate"].stringValue),
                         imgURL: item["imageURL"].stringValue)
@@ -217,6 +225,7 @@ class HomeVM: ObservableObject{
 
 struct Movie: Identifiable{
     var id = UUID()
+    var movieID: String
     var title: String
     var year: String
     var imgURL: String

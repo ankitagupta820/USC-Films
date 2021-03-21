@@ -8,6 +8,7 @@ import SwiftUI
 import Foundation
 import youtube_ios_player_helper
 import AVKit
+import Kingfisher
 //import Toast
 
 //load this page only when data is fetched
@@ -23,34 +24,34 @@ struct DetailsView: View {
     @State var averageStarRating: Float = 4.5
     @ObservedObject var DetailsVM: DetailVM
     
-    @State var castMember: [CastHashableArray] =
-        [CastHashableArray(actorName: "Henry Cavill",actorPic: "https://www.themoviedb.org/t/p/w276_and_h350_face/485V2gC6w1O9D96KUtKPyJpgm2j.jpg"),
-        CastHashableArray(actorName:"Amy Adams",actorPic:"https://www.themoviedb.org/t/p/w276_and_h350_face/1h2r2VTpoFb5QefAaBYYQgQzL9z.jpg"),
-        CastHashableArray(actorName:"Ray Fisher",
-                          actorPic:"https://www.themoviedb.org/t/p/w276_and_h350_face/310snvA05xDOQZDn2fJSp242GHw.jpg"),
-        CastHashableArray(actorName:"Gal Gadot",
-                          actorPic: "https://www.themoviedb.org/t/p/w276_and_h350_face/1uFvXHf18NBnlwsJHVaikLXwp9Y.jpg"),
-        CastHashableArray(actorName:"Gal Gadot",
-                          actorPic: "https://www.themoviedb.org/t/p/w276_and_h350_face/1uFvXHf18NBnlwsJHVaikLXwp9Y.jpg"),
-        CastHashableArray(actorName:"Gal Gadot",
-                          actorPic: "https://www.themoviedb.org/t/p/w276_and_h350_face/1uFvXHf18NBnlwsJHVaikLXwp9Y.jpg")
-    ]
+//    @State var castMember: [CastHashableArray] =
+//        [CastHashableArray(actorName: "Henry Cavill",actorPic: "https://www.themoviedb.org/t/p/w276_and_h350_face/485V2gC6w1O9D96KUtKPyJpgm2j.jpg"),
+//        CastHashableArray(actorName:"Amy Adams",actorPic:"https://www.themoviedb.org/t/p/w276_and_h350_face/1h2r2VTpoFb5QefAaBYYQgQzL9z.jpg"),
+//        CastHashableArray(actorName:"Ray Fisher",
+//                          actorPic:"https://w ww.themoviedb.org/t/p/w276_and_h350_face/310snvA05xDOQZDn2fJSp242GHw.jpg"),
+//        CastHashableArray(actorName:"Gal Gadot",
+//                          actorPic: "https://www.themoviedb.org/t/p/w276_and_h350_face/1uFvXHf18NBnlwsJHVaikLXwp9Y.jpg"),
+//        CastHashableArray(actorName:"Gal Gadot",
+//                          actorPic: "https://www.themoviedb.org/t/p/w276_and_h350_face/1uFvXHf18NBnlwsJHVaikLXwp9Y.jpg"),
+//        CastHashableArray(actorName:"Gal Gadot",
+//                          actorPic: "https://www.themoviedb.org/t/p/w276_and_h350_face/1uFvXHf18NBnlwsJHVaikLXwp9Y.jpg")
+//    ]
     
-    @State var Reviews: [ReviewCard] = [ReviewCard(reviewTitle: "Amazing Superhero Movie", rating: 5, reviewAuth: "DorothyZ", reviewDate: "2021/03/14", reviewText:"This is a treat to all DC fans. Spellbinding graphics, gripping storyline, wonderful performances."),
-                                    ReviewCard(reviewTitle: "Treat for DC Fans", rating: 4, reviewAuth: "CathyK", reviewDate: "2021/03/15", reviewText:"Simply amazed. Must-watch"),
-                                    ReviewCard(reviewTitle: "Amazing Superhero Movie", rating: 5, reviewAuth: "DorothyZ", reviewDate: "2021/03/14", reviewText:"This is a treat to all DC fans. Spellbinding graphics, gripping storyline, wonderful performances")
-    ]
+//    @State var Reviews: [ReviewCard] = [ReviewCard(rating: 5, reviewAuth: "DorothyZ", reviewDate: "2021/03/14", reviewText:"This is a treat to all DC fans. Spellbinding graphics, gripping storyline, wonderful performances."),
+//                                    ReviewCard(rating: 4, reviewAuth: "CathyK", reviewDate: "2021/03/15", reviewText:"Simply amazed. Must-watch"),
+//                                    ReviewCard(rating: 5, reviewAuth: "DorothyZ", reviewDate: "2021/03/14", reviewText:"This is a treat to all DC fans. Spellbinding graphics, gripping storyline, wonderful performances")
+//    ]
     
-    @State var RecommendedMovies: [RecommendedMovieData] = [
-        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg", movieName: "Wonder Woman", movieYear: "2020"),
-        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020"),
-        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020"),
-        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020"),
-        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020"),
-        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020"),
-        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020")
-        
-    ]
+//    @State var RecommendedMovies: [RecommendedMovieData] = [
+//        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg", movieName: "Wonder Woman", movieYear: "2020-04-14"),
+//        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020-04-14"),
+//        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020-04-14"),
+//        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020"),
+//        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020"),
+//        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020"),
+//        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020")
+//
+//    ]
     var body: some View{
         let layout=[
             GridItem(.flexible()),
@@ -66,34 +67,59 @@ struct DetailsView: View {
             GridItem(.flexible()),
             GridItem(.flexible())
         ]
+        VStack{
+            VStack{
+                
+            }
+            .navigationTitle("")
+            .toolbar{
+                ToolbarItem(placement: .navigationBarTrailing){
+                    HStack{
+                        Button(action:{
+                            self.onBookmark()
+                        }){
+                            Image(systemName: self.isBookMarked == true ? "plus.circle.fill" : "plus.circle")
+                        }
+                        .padding()
+                        Button(action:{
+                            self.onShare()
+                        }){
+                            Image(systemName: "square.and.arrow.up")
+                        }
+                    }
+                    
+                }
+            }
+        }
         player(videoID:$videoId).frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 200)
         ScrollView{
             LazyVStack{
+
         VStack(alignment: .leading){
-            HStack{
+        //    HStack{
                 Text(DetailsVM.movieTVShowName)
                     .font(.title)
                     .bold()
                     .foregroundColor(Color.black)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
-                    .padding(.leading, 20)
+                 //   .padding(.leading, 20)
                     .padding(.bottom,5)
 
-                Button(action:{
-                    self.onBookmark()
-                }){
-                    Image(systemName: self.isBookMarked == true ? "plus.circle.fill" : "plus.circle")
-
-                    }
-
-                .padding(.trailing,5)
-
-                Button(action: {
-                        self.onShare()
-                    }) {
-                        Image(systemName: "shield")
-                    }
-            } //HStack moviename, buttons
+//                Button(action:{
+//                    self.onBookmark()
+//                }){
+//                    Image(systemName: self.isBookMarked == true ? "plus.circle.fill" : "plus.circle")
+//
+//                    }
+//
+//                .padding(.trailing,5)
+//
+//                Button(action: {
+//                        self.onShare()
+//                    }) {
+//                        Image(systemName: "shield")
+//                    }
+           // } //HStack moviename, buttons
             
         
         //Year,Genre
@@ -102,37 +128,39 @@ struct DetailsView: View {
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
 
         }
-        .padding(.leading,20)
+      //  .padding(.leading,20)
         .padding(.bottom,5)
         //HStack
         
         //Average Rating
-        (Text(Image(systemName: "star.fill")).foregroundColor(Color.red) + Text("\(String(format: "%.1f",self.averageStarRating))/5"))
+            (Text(Image(systemName: "star.fill")).foregroundColor(Color.red) + Text("\(String(format: "%.1f",DetailsVM.movieTVShowRating/2))/5"))
             .frame(minWidth:0, maxWidth: .infinity, alignment: .leading)
-            .padding(.leading,20)
+          //  .padding(.leading,20)
             .padding(.bottom,5)
         
         //Description
         LongText(DetailsVM.movieTVShowDescription)
-            .padding(.leading,20)
+           // .padding(.leading,20)
             .padding(.trailing,5)
         
-        Text("Cast & Crew")
-            .font(.title2)
-            .padding(.leading,20)
+        Text("Cast & Crew").font(.system(size: 25.0, design:.rounded)).fontWeight(.bold)
+         //   .padding(.leading,20)
             .padding(.top,5)
         ScrollView{
             LazyVGrid(columns:layout, spacing:10){
-                ForEach(0..<castMember.count){ i in
+                ForEach(0..<DetailsVM.castMemberData.count){ i in
                     VStack{
-                        RemoteImage(url: castMember[i].actorPic)
+                        KFImage(URL(string: DetailsVM.castMemberData[i].actorPic))
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
                             .clipShape(Circle())
                             .shadow(radius: 1)
                             .overlay(Circle().stroke(Color.white, lineWidth: 1))
 //                                    .border(Color.white)
-                            .frame(width:70, height:100)
+                            .frame(width:90, height:110)
+                            
 
-                        Text(castMember[i].actorName)
+                        Text(DetailsVM.castMemberData[i].actorName)
                             .font(.subheadline)
                     }
                 }
@@ -141,63 +169,53 @@ struct DetailsView: View {
         } //ScrollView for Cast & Crew
         
         //Reviews List
-            Text("Reviews")
-                .font(.title2)
-                .padding(.leading,20)
-                .padding(.bottom,5)
+            if(DetailsVM.reviews.count>0){
+                Text("Reviews").font(.system(size: 25.0, design:.rounded)).fontWeight(.bold)
+                   // .padding(.leading,20)
+                    .padding(.bottom,5)
+    //            if(DetailsVM.reviews.count==0){
+    //                Text("No Reviews found")
+    //                    .font(.caption)
+    //
+    //            }
 
-                ForEach(0..<Reviews.count){ index in
-                    ExDivider()
-                    CardView(reviewCard:Reviews[index])
-                        .padding(.bottom,10)
-                        .padding(.leading, 20)
-
+                ForEach(0..<DetailsVM.reviews.count){ index in
+                    NavigationLink(destination: DetailedReview(reviewCard:DetailsVM.reviews[index])){
+                     //   ExDivider()
+                        
+                        CardView(reviewCard:DetailsVM.reviews[index])
+                            .padding(.bottom,10)
+                           // .padding(.leading, 20)
+                    }
                 }
-//        Text("Reviews")
-//            .font(.title2)
-//            .padding(.leading,20)
-//            .padding(.bottom,3)
-//
-//            ForEach(0..<Reviews.count){ index in
-//                ExDivider()
-//                CardView(reviewCard:Reviews[index])
-//                    .padding(.bottom,5)
-//
-//
-//            }
+            }
+
+            if(DetailsVM.recommendedMovies.count>0){
         //Recommended Movies
-            Text("Recommended Movies")
-                .font(.title2)
-                .padding(.leading,20)
-                .padding(.bottom, -25)
+            Text("Recommended Movies").font(.system(size: 25.0, design:.rounded)).fontWeight(.bold)
+           //     .padding(.leading,20)
+                
                 ScrollView(.horizontal, showsIndicators:false){
                     HStack{
-                        ForEach(0..<self.RecommendedMovies.count){i in
-                            let jsonURL = RecommendedMovies[i].moviePoster
+                        ForEach(0..<DetailsVM.recommendedMovies.count){i in
+                           
+                                NavigationLink(destination: DetailsView(movieID:DetailsVM.recommendedMovies[i].movieID, videoURL:"https://youtu.be/8jVuOheTNGQ", DetailsVM: DetailVM(movieID: DetailsVM.recommendedMovies[i].movieID))){
 
-                            //print(jsonURL)
-                            VStack(spacing:0){
-                                    RemoteImage(url: jsonURL)
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width:70, height: 200, alignment: .center)
-                                        .padding(.trailing,15)
-                                        .onTapGesture(count: 1){
-                                            print("Single tapped!")
-                                            //code to navigate to DetailScreen here
-                                        }
-                                Text(RecommendedMovies[i].movieName+" ("+RecommendedMovies[i].movieYear+") ")
-                                    .font(.caption)
-                                    .padding(.top,-10)
+                                 
+                                    KFImage(URL(string: DetailsVM.recommendedMovies[i].moviePoster))
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .clipped()
+                                        .frame(width: 100, height: 150)
+                                        .cornerRadius(10)
+                                        .padding()
 
                             }
-
-
                         }
-
                     }
-                    .padding(.leading,20)
+                   // .padding(.leading,20)
                 } //Scrollview Recommended movies
-        
+            }
             }
 
         }
@@ -254,66 +272,7 @@ struct player: UIViewRepresentable{
 }
 
 
-//for expandable card
-struct LongText: View {
 
-    /* Indicates whether the user want to see all the text or not. */
-    @State private var expanded: Bool = false
-
-    /* Indicates whether the text has been truncated in its display. */
-    @State private var truncated: Bool = false
-
-    private var text: String
-
-    init(_ text: String) {
-        self.text = text
-    }
-
-    private func determineTruncation(_ geometry: GeometryProxy) {
-        // Calculate the bounding box we'd need to render the
-        // text given the width from the GeometryReader.
-        let total = self.text.boundingRect(
-            with: CGSize(
-                width: geometry.size.width,
-                height: .greatestFiniteMagnitude
-            ),
-            options: .usesLineFragmentOrigin,
-            attributes: [.font: UIFont.systemFont(ofSize: 16)],
-            context: nil
-        )
-
-        if total.size.height > geometry.size.height {
-            self.truncated = true
-        }
-    }
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text(self.text)
-                .font(.system(size: 16))
-                .lineLimit(self.expanded ? nil : 3)
-                .background(GeometryReader { geometry in
-                    Color.clear.onAppear {
-                        self.determineTruncation(geometry)
-                    }
-                })
-
-            if self.truncated {
-                self.toggleButton
-            }
-        }
-    }
-
-    var toggleButton: some View {
-        Button(action: { self.expanded.toggle() }) {
-            Text(self.expanded ? "Show less" : "Show more")
-                .font(.body)
-                .foregroundColor(Color.red)
-               
-        }
-    }
-
-}
 
 
 //for recommended movies list
@@ -322,10 +281,9 @@ struct RecommendedMovieData: Hashable{
     var movieName: String
     let randomInt = Int.random(in: 1..<1000)
     var movieYear: String
+    var movieID: String
     func hash(into hasher: inout Hasher){
         hasher.combine(movieName+moviePoster+String(randomInt))
     }
 }
-
-
 
