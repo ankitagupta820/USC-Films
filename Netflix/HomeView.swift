@@ -17,7 +17,6 @@ struct HomeView: View {
         
         NavigationView{
             ScrollView{
-                
                 if self.typeToggle{
                     MoviesListing
                 }else{
@@ -69,7 +68,7 @@ struct Carousal: View{
                 let NowPlaying: [Movie] = Listing
                 ImageCarouselView(numberOfImages: NowPlaying.count) {
                     ForEach(NowPlaying){movie in
-                        NavigationLink(destination: DetailsView(movieID:movie.movieID, videoURL:"https://youtu.be/8jVuOheTNGQ", DetailsVM: DetailVM(movieID: movie.movieID))){
+                        NavigationLink(destination: DetailsView(DetailsVM: DetailVM(movieID: movie.movieID, category: movie.category, videoURL: "DefaultURL"))){
                             ZStack{
                                 KFImage(URL(string: movie.imgURL))
                                     .resizable()
@@ -107,7 +106,7 @@ struct CategoryList: View{
                     
                     ForEach(Listing){movie in
                         
-                        NavigationLink(destination: DetailsView(movieID:movie.movieID, videoURL:movie.imgURL, DetailsVM: DetailVM(movieID: movie.movieID))){
+                        NavigationLink(destination: DetailsView(DetailsVM: DetailVM(movieID: movie.movieID, category: movie.category, videoURL:movie.imgURL))){
                             VStack(){
                                 KFImage(URL(string: movie.imgURL))
                                     .resizable()
@@ -137,20 +136,21 @@ struct CategoryList: View{
                             let source = movie.imgURL
                             
                             //Twitter
-                            let TwitterShareString = String("https://twitter.com/intent/tweet?text=Check out this link: &url=\(source)&hashtags=CSCI571StockApp")
+                            let TwitterShareString = String(Constants.TSURL1+source+Constants.TSURL2)
                             let escapedShareString = TwitterShareString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
                             let twitterUrl: URL = URL(string: escapedShareString)!
                             
                             //Facebook
-                            let FacebookShareString = String("https://www.facebook.com/sharer/sharer.php?u="+source)
+                            let FacebookShareString = String(Constants.FSURL+source)
                             let escapedFacebook = FacebookShareString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
                             let fbUrl: URL = URL(string:escapedFacebook)!
                             
                             //Youtube Link
                             let YoutubeShareUrl: URL = URL(string: source)!
                             
+                            //BookMark
                             Button {
-                                //bookmark
+                                //TODO: Handle Bookmarks
                             } label: {
                                 Label("Add to watchList", systemImage:"bookmark.fill")
                             }

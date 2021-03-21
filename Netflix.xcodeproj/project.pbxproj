@@ -24,6 +24,7 @@
 		DFC984D62607D40E001F55B2 /* DetailedReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC984D52607D40D001F55B2 /* DetailedReview.swift */; };
 		DFC984DB2607E1B1001F55B2 /* HTMLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC984DA2607E1B0001F55B2 /* HTMLView.swift */; };
 		DFF0BB4526072165000FDFA0 /* LongText.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF0BB4426072165000FDFA0 /* LongText.swift */; };
+		F0033BA42607E7A800360CDC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0033BA32607E7A800360CDC /* Constants.swift */; };
 		F01ECD472604417000616621 /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01ECD462604417000616621 /* HomeVM.swift */; };
 		F01ECD5426056BD200616621 /* ImageCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01ECD5326056BD200616621 /* ImageCarouselView.swift */; };
 		F025264F25FC578100DD4061 /* NetflixApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F025264E25FC578100DD4061 /* NetflixApp.swift */; };
@@ -83,6 +84,7 @@
 		DFC984DA2607E1B0001F55B2 /* HTMLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLView.swift; sourceTree = "<group>"; };
 		DFF0BB4426072165000FDFA0 /* LongText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongText.swift; sourceTree = "<group>"; };
 		ED802C4C7DFF4B75D2D8F239 /* Pods-NetflixTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetflixTests.debug.xcconfig"; path = "Target Support Files/Pods-NetflixTests/Pods-NetflixTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F0033BA32607E7A800360CDC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F01ECD462604417000616621 /* HomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
 		F01ECD5326056BD200616621 /* ImageCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarouselView.swift; sourceTree = "<group>"; };
 		F025264B25FC578100DD4061 /* Netflix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Netflix.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,6 +176,7 @@
 				DFF0BB4426072165000FDFA0 /* LongText.swift */,
 				DFC984D52607D40D001F55B2 /* DetailedReview.swift */,
 				DFC984DA2607E1B0001F55B2 /* HTMLView.swift */,
+				F0033BA32607E7A800360CDC /* Constants.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -497,6 +500,7 @@
 				834321B026055005006A5A9B /* WatchListVM.swift in Sources */,
 				834321AF26055005006A5A9B /* SearchBar.swift in Sources */,
 				DFC5F05C2601C4CB00A4F15C /* RecommendedMovie.swift in Sources */,
+				F0033BA42607E7A800360CDC /* Constants.swift in Sources */,
 				F025268D25FC603900DD4061 /* WatchlistView.swift in Sources */,
 				DFF0BB4526072165000FDFA0 /* LongText.swift in Sources */,
 				DFC5F0612601C4DE00A4F15C /* CastHashableArray.swift in Sources */,
