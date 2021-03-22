@@ -15,10 +15,11 @@ struct ImageCarouselView<Content: View>: View {
 
     private var numberOfImages: Int
     private var content: Content
-    private let timer = Timer.publish(every: 4, on: .main, in: .common).autoconnect()
 
     @State private var currentIndex: Int = 0
-    
+    private let timer = Timer.publish(every: 4, on: .main, in: .common).autoconnect()
+
+
     init(numberOfImages: Int, @ViewBuilder content: () -> Content) {
         self.numberOfImages = numberOfImages
         self.content = content()

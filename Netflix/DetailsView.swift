@@ -14,14 +14,15 @@ import Kingfisher
 //load this page only when data is fetched
 struct DetailsView: View {
    
-    @ObservedObject var DetailsVM: DetailVM
-   
+
+    let movieID: String
+    let videoURL: String
     @State var isBookMarked: Bool = false
     @State var ToastMessage:String = ""
     @State var showToast:Bool = false
     @State var videoId = NSMutableAttributedString(string: "QGnXv7vJkJY")
     @State var averageStarRating: Float = 4.5
-  
+    @ObservedObject var DetailsVM: DetailVM
     
 //    @State var castMember: [CastHashableArray] =
 //        [CastHashableArray(actorName: "Henry Cavill",actorPic: "https://www.themoviedb.org/t/p/w276_and_h350_face/485V2gC6w1O9D96KUtKPyJpgm2j.jpg"),
@@ -198,7 +199,7 @@ struct DetailsView: View {
                     HStack{
                         ForEach(0..<DetailsVM.recommendedMovies.count){i in
                            
-                            NavigationLink(destination: DetailsView(DetailsVM: DetailVM(movieID: DetailsVM.recommendedMovies[i].movieID, category: DetailsVM.movieTVcategory, videoURL: DetailsVM.movieTVvideoURL))){
+                                NavigationLink(destination: DetailsView(movieID:DetailsVM.recommendedMovies[i].movieID, videoURL:"https://youtu.be/8jVuOheTNGQ", DetailsVM: DetailVM(movieID: DetailsVM.recommendedMovies[i].movieID))){
 
                                  
                                     KFImage(URL(string: DetailsVM.recommendedMovies[i].moviePoster))
@@ -219,7 +220,6 @@ struct DetailsView: View {
 
         }
     }
-        .onAppear{self.DetailsVM.fetchDetailPageData()}
     }
     
 
@@ -228,15 +228,15 @@ struct DetailsView: View {
         print("Share tapped")
     }
     func onBookmark(){
-        DefaultsStorage.toggleBookmark(ticker: DetailsVM.movieID, name: DetailsVM.movieTVShowName)
-        self.isBookMarked = DefaultsStorage.isBookMarked(ticker: DetailsVM.movieID)
+        DefaultsStorage.toggleBookmark(ticker: self.movieID, name: DetailsVM.movieTVShowName)
+        self.isBookMarked = DefaultsStorage.isBookMarked(ticker: self.movieID)
        // self.PortfolioVM.fetchPortfolio()
         
         if self.isBookMarked {
-            self.ToastMessage = "Adding \(DetailsVM.movieID) to Favorites"
+            self.ToastMessage = "Adding \(self.movieID) to Favorites"
             //self.showToastMessage(controller: <#T##UIViewController#>, message: self.ToastMessage, seconds: 0.5)
         }else{
-            self.ToastMessage = "Removing \(DetailsVM.movieID) from Favorites"
+            self.ToastMessage = "Removing \(self.movieID) from Favorites"
         }
         self.showToast=true
   

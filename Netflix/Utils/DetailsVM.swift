@@ -12,37 +12,33 @@ import Alamofire
 class DetailVM: ObservableObject {
     
     //subject to change
-    let host:String = Constants.host
+    let movieID: String
+    let host:String = "http://localhost:4001/"
     
-    @Published var movieID: String
     @Published var movieTVShowName: String
     @Published var movieTVShowYear: String
     @Published var movieTVShowGenre: String
     @Published var movieTVShowDescription:String
     @Published var movieTVShowRating: Float
-    @Published var movieTVcategory: String
-    @Published var movieTVvideoURL: String
     @Published var isLoading: Bool = true
     @Published var isMovie: Bool = true
     @Published var castMemberData: [CastHashableArray]
     @Published var reviews: [ReviewCard]
     @Published var recommendedMovies: [RecommendedMovieData]
+  //  @Published var movieAvgRating: Float
     
-    
-    init(movieID: String, category: String, videoURL: String){
+    init(movieID: String){
         
         //depends what data is fetched from tmdb
         self.movieID = movieID
-        self.movieTVcategory = category
-        self.movieTVvideoURL = videoURL
-        print("Init called ", movieID)
+        print("Init called ",self.movieID)
         
         self.movieTVShowName = "DefaultMovieName"
-        self.movieTVShowYear = String(("DefaultReleaseDate").split(separator: "-")[0])
-        self.movieTVShowGenre = "DefaultGenre"
-        self.movieTVShowDescription = "DefaultDescription"
-        
-        self.movieTVShowRating = 0.0
+        self.movieTVShowYear = String(("2021-03-03").split(separator: "-")[0])
+        self.movieTVShowGenre = "Science Fiction"
+        self.movieTVShowDescription = "Fuelled by his restored faith in humanity and inspired by Superman's selfless act, Bruce Wayne and Diana Prince assemble a team of metahumans consisting of Barry Allen, Arthur Curry and Victor Stone to face the catastrophic threat of Steppenwolf and the Parademons who are on the hunt for three Mother Boxes on Earth."
+
+        self.movieTVShowRating = 3.5
 
         self.castMemberData = [
             CastHashableArray(actorName: "Henry Cavill",actorPic: "https://www.themoviedb.org/t/p/w276_and_h350_face/485V2gC6w1O9D96KUtKPyJpgm2j.jpg"),
@@ -60,32 +56,37 @@ class DetailVM: ObservableObject {
         self.isLoading=false
         self.reviews=[]
         self.recommendedMovies=[]
+
+        fetchDetailPageData()
     }
 
     
     func fetchDetailPageData(){
         self.fetchBasicDetails()
+        //self.fetchCastMembers()
         self.fetchCastMembers()
         self.fetchReviews()
         self.fetchRecommenedMovies()
         
     }
-    
     func fetchRecommenedMovies(){
         var url : String=""
+       // let movieID=278
         if(isMovie){
             url = host+"movies/recommended?movieId="+self.movieID
         }
         else{
             url = host+"tvshow/recommended?tvId="+self.movieID
         }
+      //  url="http://10.25.152.245:4001/movies/recommended?movieId=278"
         
+        //debugPrint(url)
         AF.request(url, encoding:JSONEncoding.default).responseJSON{ response in
             switch response.result{
             case .success(let value):
                 let json = JSON(value)
                 let data = json["data"]
-               
+                print("Data ",data)
                 var recoMovies: [RecommendedMovieData] = []
                 for item in data.arrayValue {
                     let recoMovieObj = RecommendedMovieData(
@@ -94,6 +95,8 @@ class DetailVM: ObservableObject {
                         movieName: item["title"].stringValue,
                         movieYear: String(item["releaseDate"].stringValue.prefix(4)),
                         movieID: item["id"].stringValue
+                       
+                       
                     )
 
                     recoMovies.append(recoMovieObj)
@@ -116,7 +119,8 @@ class DetailVM: ObservableObject {
         else{
             url = host+"tvshow/reviews?tvId="+self.movieID
         }
-
+      //  url="http://10.25.152.245:4001/movies/reviews?movieId=278"
+    //    debugPrint(url)
         AF.request(url, encoding:JSONEncoding.default).responseJSON{ response in
             switch response.result{
             case .success(let value):
@@ -170,7 +174,8 @@ class DetailVM: ObservableObject {
         else{
             url = host+"tvshow/cast?tvId="+self.movieID
         }
-
+      //  url="http://10.25.152.245:4001/movies/cast?movieId=278"
+        debugPrint(url)
         AF.request(url, encoding:JSONEncoding.default).responseJSON{ response in
             switch response.result{
             case .success(let value):
@@ -211,11 +216,12 @@ class DetailVM: ObservableObject {
         else{
             url = host+"tvshow/details?tvId="+self.movieID
         }
-
+        //url="http://10.25.152.245:4001/movies/details?movieId=278"
+        debugPrint("URL BASIC"+url)
         AF.request(url, encoding:JSONEncoding.default).responseJSON { response in
             switch response.result{
             case .success(let value):
-
+                debugPrint("switch ")
                 let json = JSON(value)
                 let data = json["data"]
                 
@@ -227,7 +233,7 @@ class DetailVM: ObservableObject {
                     genre += g_item.stringValue + ", "
                 }
                 genre=String(genre.dropLast(2))
-
+                print("Genre "+genre)
                 self.movieTVShowGenre = genre
                 
                 self.movieTVShowDescription=data["overview"].stringValue
