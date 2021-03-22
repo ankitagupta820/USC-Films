@@ -24,6 +24,11 @@ struct DetailsView: View {
     @State var averageStarRating: Float = 4.5
     @ObservedObject var DetailsVM: DetailVM
     
+        
+//        .onAppear(){
+//    DetailsVM.fetchDetailPageData()
+//    }
+//    
 //    @State var castMember: [CastHashableArray] =
 //        [CastHashableArray(actorName: "Henry Cavill",actorPic: "https://www.themoviedb.org/t/p/w276_and_h350_face/485V2gC6w1O9D96KUtKPyJpgm2j.jpg"),
 //        CastHashableArray(actorName:"Amy Adams",actorPic:"https://www.themoviedb.org/t/p/w276_and_h350_face/1h2r2VTpoFb5QefAaBYYQgQzL9z.jpg"),
