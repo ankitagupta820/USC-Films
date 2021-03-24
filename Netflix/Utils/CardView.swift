@@ -14,7 +14,8 @@ struct CardView: View {
     
     var body: some View {
 
-      
+//            RoundedRectangle(cornerRadius: 25, style: .continuous)
+              //       .fill(Color.gray)
                 VStack(alignment: .leading) {
                     Text("A review by "+reviewCard.reviewAuth)
                         .fontWeight(.bold)
@@ -22,7 +23,7 @@ struct CardView: View {
                         .padding(.bottom,1)
                     Text("Written by "+reviewCard.reviewAuth+" on "+String(self.changeDateFormat()))
                             .padding(.bottom,1)
-                            .foregroundColor(Color.gray)
+                        .foregroundColor(Color.gray)
                     
                     (Text(Image(systemName: "star.fill")).foregroundColor(Color.red) + Text("\(String(format: "%.1f",(reviewCard.rating/2)))/5.0"))
                         .padding(.bottom,1)
@@ -37,6 +38,7 @@ struct CardView: View {
                         .lineLimit(3)
      
                 }
+            
            
       
     }

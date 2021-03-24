@@ -13,7 +13,9 @@ class DetailVM: ObservableObject {
     
     //subject to change
     let movieID: String
+    let isMovie: Bool
     let host:String = "http://localhost:4001/"
+    
     
     @Published var movieTVShowName: String
     @Published var movieTVShowYear: String
@@ -21,17 +23,18 @@ class DetailVM: ObservableObject {
     @Published var movieTVShowDescription:String
     @Published var movieTVShowRating: Float
     @Published var isLoading: Bool = true
-    @Published var isMovie: Bool = true
+    //@Published var isMovie: Bool = true
     @Published var castMemberData: [CastHashableArray]
     @Published var reviews: [ReviewCard]
     @Published var recommendedMovies: [RecommendedMovieData]
+    @Published var movieTVShowTrailer: String
   //  @Published var movieAvgRating: Float
     
-    init(movieID: String){
+    init(movieID: String, isMovie: Bool){
         
         //depends what data is fetched from tmdb
         self.movieID = movieID
-        print("Init called ",self.movieID)
+       // print("Init called ",self.movieID)
         
         self.movieTVShowName = "DefaultMovieName"
         self.movieTVShowYear = String(("2021-03-03").split(separator: "-")[0])
@@ -52,14 +55,15 @@ class DetailVM: ObservableObject {
             CastHashableArray(actorName:"Gal Gadot",
                               actorPic: "https://www.themoviedb.org/t/p/w276_and_h350_face/1uFvXHf18NBnlwsJHVaikLXwp9Y.jpg")
            ]
-        self.isMovie=true
+        self.isMovie=isMovie
         self.isLoading=false
         self.reviews=[]
         self.recommendedMovies=[]
+        self.movieTVShowTrailer = "Default Trailer"
 
-        fetchDetailPageData()
+       // fetchDetailPageData()
     }
-
+    
     
     func fetchDetailPageData(){
         self.fetchBasicDetails()
@@ -76,7 +80,7 @@ class DetailVM: ObservableObject {
             url = host+"movies/recommended?movieId="+self.movieID
         }
         else{
-            url = host+"tvshow/recommended?tvId="+self.movieID
+            url = host+"tv-series/recommended?tvId="+self.movieID
         }
       //  url="http://10.25.152.245:4001/movies/recommended?movieId=278"
         
@@ -94,8 +98,8 @@ class DetailVM: ObservableObject {
                         moviePoster: item["imageURL"].stringValue,
                         movieName: item["title"].stringValue,
                         movieYear: String(item["releaseDate"].stringValue.prefix(4)),
-                        movieID: item["id"].stringValue
-                       
+                        movieID: item["id"].stringValue,
+                        isMovie: self.isMovie
                        
                     )
 
@@ -117,7 +121,7 @@ class DetailVM: ObservableObject {
             url = host+"movies/reviews?movieId="+self.movieID
         }
         else{
-            url = host+"tvshow/reviews?tvId="+self.movieID
+            url = host+"tv-series/reviews?tvId="+self.movieID
         }
       //  url="http://10.25.152.245:4001/movies/reviews?movieId=278"
     //    debugPrint(url)
@@ -172,7 +176,7 @@ class DetailVM: ObservableObject {
             url = host+"movies/cast?movieId="+self.movieID
         }
         else{
-            url = host+"tvshow/cast?tvId="+self.movieID
+            url = host+"tv-series/cast?tvId="+self.movieID
         }
       //  url="http://10.25.152.245:4001/movies/cast?movieId=278"
         debugPrint(url)
@@ -214,10 +218,11 @@ class DetailVM: ObservableObject {
             url = host+"movies/details?movieId="+self.movieID
         }
         else{
-            url = host+"tvshow/details?tvId="+self.movieID
+            url = host+"tv-series/details?tvId="+self.movieID
         }
         //url="http://10.25.152.245:4001/movies/details?movieId=278"
-        debugPrint("URL BASIC"+url)
+        debugPrint("MovieID ",self.movieID)
+
         AF.request(url, encoding:JSONEncoding.default).responseJSON { response in
             switch response.result{
             case .success(let value):
@@ -226,8 +231,14 @@ class DetailVM: ObservableObject {
                 let data = json["data"]
                 
                 self.movieTVShowName = data["title"].stringValue
-                let movieDate = data["release_date"].stringValue.components(separatedBy: "-")
-                self.movieTVShowYear = movieDate[0]
+                if(self.isMovie){
+                    let movieDate = data["release_date"].stringValue.components(separatedBy: "-")
+                    self.movieTVShowYear = movieDate[0]
+                }
+                else{
+                    let tvShowDate = data["first_air_date"].stringValue.components(separatedBy: "-")
+                    self.movieTVShowYear = tvShowDate[0]
+                }
                 var genre = ""
                 for g_item in data["genres"].arrayValue {
                     genre += g_item.stringValue + ", "
@@ -240,6 +251,10 @@ class DetailVM: ObservableObject {
                 
                 self.movieTVShowRating=data["vote_average"].floatValue
                 print("MovieTVShow Rating" + String(self.movieTVShowRating))
+                
+                self.movieTVShowTrailer = data["video_details"]["video_id"].stringValue
+                
+                
                 
             case .failure(let error):
                 print(error)
@@ -264,15 +279,12 @@ class DetailVM: ObservableObject {
     }
 }
 
-struct castHashableArray: Hashable{
-
+struct castHashableArray: Identifiable{
+    var id=UUID()
     var actorName: String
     var actorPic: String
-    let randomInt = Int.random(in: 1..<1000)
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(actorName+actorPic+String(randomInt))
-    }
-
+   
+    
 }
 
 struct Cast{
@@ -286,4 +298,3 @@ struct Cast{
         self.actorPicture = actorPicture
     }
 }
-

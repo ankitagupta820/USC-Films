@@ -20,6 +20,7 @@ function processTvSeriesResult(data) {
         temp['popularity'] = data[i]['popularity'];
         temp['releaseDate'] = data[i]['first_air_date'];
         temp['category'] = 'tv';
+        temp['TMDBLink'] = "https://www.themoviedb.org/"+"tv"+"/" + data[i]['id'];
         result.push(temp);
     }
     return result;

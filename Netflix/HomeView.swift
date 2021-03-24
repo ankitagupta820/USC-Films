@@ -69,7 +69,7 @@ struct Carousal: View{
                 let NowPlaying: [Movie] = Listing
                 ImageCarouselView(numberOfImages: NowPlaying.count) {
                     ForEach(NowPlaying){movie in
-                        NavigationLink(destination: DetailsView(movieID:movie.movieID, videoURL:"https://youtu.be/8jVuOheTNGQ", DetailsVM: DetailVM(movieID: movie.movieID))){
+                        NavigationLink(destination: DetailsView(DetailsVM: DetailVM(movieID: movie.movieID, isMovie:movie.isMovie))){
                             ZStack{
                                 KFImage(URL(string: movie.imgURL))
                                     .resizable()
@@ -106,8 +106,8 @@ struct CategoryList: View{
                 HStack(alignment: .top,spacing: 30){
                     
                     ForEach(Listing){movie in
-                        
-                        NavigationLink(destination: DetailsView(movieID:movie.movieID, videoURL:movie.imgURL, DetailsVM: DetailVM(movieID: movie.movieID))){
+                       
+                        NavigationLink(destination: DetailsView(DetailsVM: DetailVM(movieID: movie.movieID, isMovie:movie.isMovie))){
                             VStack(){
                                 KFImage(URL(string: movie.imgURL))
                                     .resizable()
@@ -134,10 +134,10 @@ struct CategoryList: View{
                         .background(Color.white)
                         .contentShape(RoundedRectangle(cornerRadius: 10))
                         .contextMenu(menuItems: {
-                            let source = movie.imgURL
-                            
+                            let source: String = String(movie.TMDBLink)//movie.imgURL
+                           
                             //Twitter
-                            let TwitterShareString = String("https://twitter.com/intent/tweet?text=Check out this link: &url=\(source)&hashtags=CSCI571StockApp")
+                            let TwitterShareString = String("https://twitter.com/intent/tweet?text=Check out this link: &url=\(source)&hashtags=CSCI571NetflixApp")
                             let escapedShareString = TwitterShareString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
                             let twitterUrl: URL = URL(string: escapedShareString)!
                             
@@ -147,7 +147,7 @@ struct CategoryList: View{
                             let fbUrl: URL = URL(string:escapedFacebook)!
                             
                             //Youtube Link
-                            let YoutubeShareUrl: URL = URL(string: source)!
+                            //let YoutubeShareUrl: URL = URL(string: source)?
                             
                             Button {
                                 //bookmark
@@ -155,11 +155,12 @@ struct CategoryList: View{
                                 Label("Add to watchList", systemImage:"bookmark.fill")
                             }
                             
-                            Link(destination: YoutubeShareUrl, label: {Label("Watch Trailer", systemImage: "film")})
+                          //  Link(destination: YoutubeShareUrl, label: {Label("Watch Trailer", systemImage: "film")})
                             Link(destination: fbUrl, label: {Label("Share on Facebook", image: "Facebook")})
                             Link(destination: twitterUrl, label: {Label("Share on Twitter", image: "Twitter")})
                             
                         })
+                       
                     }
                 }
             }

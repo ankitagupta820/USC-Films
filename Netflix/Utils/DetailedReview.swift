@@ -9,21 +9,35 @@ import SwiftUI
 
 struct DetailedReview: View {
     let reviewCard: ReviewCard
+    let movieName: String
     var body: some View {
-        ScrollView{
-            LazyVStack{
-                VStack (alignment: .leading){
-                    Text("By "+reviewCard.reviewAuth + " on "+String(self.changeDateFormat()))
-                        .padding(.bottom,1)
-                        .foregroundColor(Color.gray)
-                    
-                    (Text(Image(systemName: "star.fill")).foregroundColor(Color.red) + Text("\(String(format: "%.1f",(reviewCard.rating/2)))/5.0"))
-                    Text(reviewCard.reviewText)
-                        .font(.body)
-                       
-                }
+       
+           
+       
+            ScrollView{
+                //LazyVStack{
+                    VStack (alignment: .leading){
+                        Text(movieName)
+                            .font(.system(size: 25.0, design:.rounded))
+                            .fontWeight(.bold)
+                            .foregroundColor(Color.black)
+                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
+                            .padding(.bottom,5)
+                        Text("By "+reviewCard.reviewAuth + " on "+String(self.changeDateFormat()))
+                            .padding(.bottom,1)
+                            .foregroundColor(Color.gray)
+                        
+                        (Text(Image(systemName: "star.fill")).foregroundColor(Color.red) + Text("\(String(format: "%.1f",(reviewCard.rating/2)))/5.0"))
+                            .padding(.bottom,1)
+                        Text(reviewCard.reviewText)
+                            .font(.body)
+                           
+                    }
+           
             }
-        }
+          
+        
+        
        
     }
     

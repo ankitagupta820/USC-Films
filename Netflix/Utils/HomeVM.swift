@@ -12,6 +12,7 @@ class HomeVM: ObservableObject{
     
     let host:String = "http://10.25.152.245:4001/"
     var isLoaded: Bool
+   
     
     @Published var nowPlayingMovie: [Movie]
     @Published var topRatedMovie: [Movie]
@@ -20,18 +21,19 @@ class HomeVM: ObservableObject{
     @Published var airingToday: [Movie]
     @Published var topRatedTV: [Movie]
     @Published var popularTV: [Movie]
+
     
     
     init(){
         self.isLoaded=false
         
-        self.nowPlayingMovie=[Movie(movieID: "278",title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL")]
-        self.topRatedMovie=[Movie(movieID: "278",title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL")]
-        self.popularMovie=[Movie(movieID: "278",title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL")]
+        self.nowPlayingMovie=[Movie(movieID: "278",title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL", TMDBLink:"Default url", isMovie: true)]
+        self.topRatedMovie=[Movie(movieID: "278",title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL",TMDBLink:"Default url", isMovie: true)]
+        self.popularMovie=[Movie(movieID: "278",title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL",TMDBLink:"Default url", isMovie: true)]
         
-        self.airingToday = [Movie(movieID: "278",title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL")]
-        self.topRatedTV = [Movie(movieID: "278",title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL")]
-        self.popularTV = [Movie(movieID: "278",title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL")]
+        self.airingToday = [Movie(movieID: "278",title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL",TMDBLink:"Default url", isMovie: false)]
+        self.topRatedTV = [Movie(movieID: "278",title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL",TMDBLink:"Default url", isMovie: false)]
+        self.popularTV = [Movie(movieID: "278",title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL",TMDBLink:"Default url", isMovie: false)]
         fetchHomePageData()
     }
     
@@ -49,6 +51,7 @@ class HomeVM: ObservableObject{
         //Movie
         let urlMovie: String = host+"movies/now-playing"
         debugPrint("urlMOvie "+urlMovie)
+     
         AF.request(urlMovie, encoding:JSONEncoding.default).responseJSON { response in
             switch response.result{
             
@@ -63,8 +66,10 @@ class HomeVM: ObservableObject{
                         movieID: item["id"].stringValue,
                         title: item["title"].stringValue,
                         year: self.formatDate(date: item["releaseDate"].stringValue),
-                        imgURL: item["imageURL"].stringValue)
-                    
+                        imgURL: item["imageURL"].stringValue,
+                        TMDBLink: item["TMDBLink"].stringValue,
+                        isMovie: true)
+                 
                     MoviesArray.append(movieObj)
                 }
                 self.nowPlayingMovie=MoviesArray
@@ -89,7 +94,9 @@ class HomeVM: ObservableObject{
                         movieID: item["id"].stringValue,
                         title: item["title"].stringValue,
                         year: self.formatDate(date: item["releaseDate"].stringValue),
-                        imgURL: item["imageURL"].stringValue)
+                        imgURL: item["imageURL"].stringValue,
+                        TMDBLink: item["TMDBLink"].stringValue,
+                        isMovie: false)
                     MoviesArray.append(movieObj)
                 }
                 self.airingToday=MoviesArray
@@ -117,7 +124,9 @@ class HomeVM: ObservableObject{
                         movieID: item["id"].stringValue,
                         title: item["title"].stringValue,
                         year: self.formatDate(date: item["releaseDate"].stringValue),
-                        imgURL: item["imageURL"].stringValue)
+                        imgURL: item["imageURL"].stringValue,
+                        TMDBLink: item["TMDBLink"].stringValue,
+                        isMovie: true)
                     topRatedArray.append(movieObj)
                 }
                 self.topRatedMovie=topRatedArray
@@ -143,7 +152,9 @@ class HomeVM: ObservableObject{
                         movieID: item["id"].stringValue,
                         title: item["title"].stringValue,
                         year: self.formatDate(date: item["releaseDate"].stringValue),
-                        imgURL: item["imageURL"].stringValue)
+                        imgURL: item["imageURL"].stringValue,
+                        TMDBLink: item["TMDBLink"].stringValue,
+                        isMovie: false)
                     topRatedArray.append(movieObj)
                 }
                 self.topRatedTV=topRatedArray
@@ -172,7 +183,9 @@ class HomeVM: ObservableObject{
                         movieID: item["id"].stringValue,
                         title: item["title"].stringValue,
                         year: self.formatDate(date: item["releaseDate"].stringValue),
-                        imgURL: item["imageURL"].stringValue)
+                        imgURL: item["imageURL"].stringValue,
+                        TMDBLink: item["TMDBLink"].stringValue,
+                        isMovie: true)
                     MoviesArray.append(movieObj)
                 }
                 self.popularMovie=MoviesArray
@@ -199,7 +212,9 @@ class HomeVM: ObservableObject{
                         movieID: item["id"].stringValue,
                         title: item["title"].stringValue,
                         year: self.formatDate(date: item["releaseDate"].stringValue),
-                        imgURL: item["imageURL"].stringValue)
+                        imgURL: item["imageURL"].stringValue,
+                        TMDBLink: item["TMDBLink"].stringValue,
+                        isMovie: false)
                     MoviesArray.append(movieObj)
                 }
                 self.popularTV=MoviesArray
@@ -229,5 +244,6 @@ struct Movie: Identifiable{
     var title: String
     var year: String
     var imgURL: String
-    
+    var TMDBLink:String
+    var isMovie: Bool
 }
