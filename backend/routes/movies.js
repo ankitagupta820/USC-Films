@@ -19,6 +19,7 @@ function processMoviesResult(data) {
         temp['popularity'] = data[i]['popularity'];
         temp['releaseDate'] = data[i]['release_date'];
         temp['category'] = 'movie';
+        temp['TMDBLink'] = "https://www.themoviedb.org/"+"movie"+"/" + data[i]['id'];
 
         result.push(temp);
     }
