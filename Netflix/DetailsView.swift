@@ -23,8 +23,45 @@ struct DetailsView: View {
     @State var videoId = NSMutableAttributedString(string: "QGnXv7vJkJY")
     @State var averageStarRating: Float = 4.5
     @ObservedObject var DetailsVM: DetailVM
-//    videoId = NSMutableAttributedString(string: DetailsVM.movieTVShowTrailer)
-
+//<<<<<<< HEAD
+////    videoId = NSMutableAttributedString(string: DetailsVM.movieTVShowTrailer)
+//
+//=======
+//
+//
+////        .onAppear(){
+////    DetailsVM.fetchDetailPageData()
+////    }
+////
+////    @State var castMember: [CastHashableArray] =
+////        [CastHashableArray(actorName: "Henry Cavill",actorPic: "https://www.themoviedb.org/t/p/w276_and_h350_face/485V2gC6w1O9D96KUtKPyJpgm2j.jpg"),
+////        CastHashableArray(actorName:"Amy Adams",actorPic:"https://www.themoviedb.org/t/p/w276_and_h350_face/1h2r2VTpoFb5QefAaBYYQgQzL9z.jpg"),
+////        CastHashableArray(actorName:"Ray Fisher",
+////                          actorPic:"https://w ww.themoviedb.org/t/p/w276_and_h350_face/310snvA05xDOQZDn2fJSp242GHw.jpg"),
+////        CastHashableArray(actorName:"Gal Gadot",
+////                          actorPic: "https://www.themoviedb.org/t/p/w276_and_h350_face/1uFvXHf18NBnlwsJHVaikLXwp9Y.jpg"),
+////        CastHashableArray(actorName:"Gal Gadot",
+////                          actorPic: "https://www.themoviedb.org/t/p/w276_and_h350_face/1uFvXHf18NBnlwsJHVaikLXwp9Y.jpg"),
+////        CastHashableArray(actorName:"Gal Gadot",
+////                          actorPic: "https://www.themoviedb.org/t/p/w276_and_h350_face/1uFvXHf18NBnlwsJHVaikLXwp9Y.jpg")
+////    ]
+//
+////    @State var Reviews: [ReviewCard] = [ReviewCard(rating: 5, reviewAuth: "DorothyZ", reviewDate: "2021/03/14", reviewText:"This is a treat to all DC fans. Spellbinding graphics, gripping storyline, wonderful performances."),
+////                                    ReviewCard(rating: 4, reviewAuth: "CathyK", reviewDate: "2021/03/15", reviewText:"Simply amazed. Must-watch"),
+////                                    ReviewCard(rating: 5, reviewAuth: "DorothyZ", reviewDate: "2021/03/14", reviewText:"This is a treat to all DC fans. Spellbinding graphics, gripping storyline, wonderful performances")
+////    ]
+//
+////    @State var RecommendedMovies: [RecommendedMovieData] = [
+////        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg", movieName: "Wonder Woman", movieYear: "2020-04-14"),
+////        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020-04-14"),
+////        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020-04-14"),
+////        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020"),
+////        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020"),
+////        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020"),
+////        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020")
+////
+////    ]
+//>>>>>>> a8a93839bdd9df8c86ed86491b143429d55c3870
     var body: some View{
         let layout=[
             GridItem(.flexible()),
