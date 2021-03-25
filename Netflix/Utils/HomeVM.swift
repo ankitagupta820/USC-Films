@@ -10,7 +10,7 @@ import Alamofire
 
 class HomeVM: ObservableObject{
     
-    let host:String = "http://localhost:4001/"
+    let host:String = global.server
     var isLoaded: Bool
    
     
@@ -246,4 +246,5 @@ struct Movie: Identifiable{
     var imgURL: String
     var TMDBLink:String
     var isMovie: Bool
+    var vote: Double = 0.0
 }

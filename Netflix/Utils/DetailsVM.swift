@@ -14,7 +14,7 @@ class DetailVM: ObservableObject {
     //subject to change
     let movieID: String
     let isMovie: Bool
-    let host:String = "http://localhost:4001/"
+    let host:String = global.server
     
     
     @Published var movieTVShowName: String
