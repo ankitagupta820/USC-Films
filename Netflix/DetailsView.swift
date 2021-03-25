@@ -226,6 +226,11 @@ struct DetailsView: View {
     //}
         .onAppear{
             self.DetailsVM.fetchDetailPageData()
+            if DefaultsStorage.get(key: self.DetailsVM.movieID) != nil {
+                self.isBookMarked = true
+            } else {
+                self.isBookMarked = false
+            }
         }
     }
     
@@ -235,19 +240,19 @@ struct DetailsView: View {
         print("Share tapped")
     }
     func onBookmark(){
-        DefaultsStorage.toggleBookmark(ticker: self.DetailsVM.movieID, name: DetailsVM.movieTVShowName)
-        self.isBookMarked = DefaultsStorage.isBookMarked(ticker: self.DetailsVM.movieID)
        // self.PortfolioVM.fetchPortfolio()
-        
         if self.isBookMarked {
-            self.ToastMessage = "Adding \(self.DetailsVM.movieID) to Favorites"
-            //self.showToastMessage(controller: <#T##UIViewController#>, message: self.ToastMessage, seconds: 0.5)
-        }else{
-            self.ToastMessage = "Removing \(self.DetailsVM.movieID) from Favorites"
+            DefaultsStorage.remove(key: self.DetailsVM.movieID)
+            self.isBookMarked = false
+            self.ToastMessage = "Removing \(self.DetailsVM.movieTVShowName) from Watchlist"
+        } else {
+            DefaultsStorage.store(key: self.DetailsVM.movieID, movie: MovieTV(
+                                    id: (self.DetailsVM.movieID as NSString).integerValue,
+                                    movieID: self.DetailsVM.movieID, title: self.DetailsVM.movieTVShowName, imgURL: self.DetailsVM.imgURL, isMovie: true, TMDBLink: "Default Link"))
+            self.isBookMarked = true
+            self.ToastMessage = "Adding \(self.DetailsVM.movieTVShowName) to Watchlist"
         }
         self.showToast=true
-  
-        
     }
     func showToastMessage(controller: UIViewController, message:String, seconds:Double){
         let alert=UIAlertController(title: nil, message: message, preferredStyle: .alert)

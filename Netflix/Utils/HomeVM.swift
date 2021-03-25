@@ -10,7 +10,7 @@ import Alamofire
 
 class HomeVM: ObservableObject{
     
-    let host:String = "http://10.25.152.245:4001/"
+    let host:String = "http://localhost:4001/"
     var isLoaded: Bool
    
     

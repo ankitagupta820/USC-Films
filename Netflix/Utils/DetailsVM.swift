@@ -28,6 +28,7 @@ class DetailVM: ObservableObject {
     @Published var reviews: [ReviewCard]
     @Published var recommendedMovies: [RecommendedMovieData]
     @Published var movieTVShowTrailer: String
+    @Published var imgURL: String
   //  @Published var movieAvgRating: Float
     
     init(movieID: String, isMovie: Bool){
@@ -60,6 +61,7 @@ class DetailVM: ObservableObject {
         self.reviews=[]
         self.recommendedMovies=[]
         self.movieTVShowTrailer = "Default Trailer"
+        self.imgURL = ""
 
        // fetchDetailPageData()
     }
@@ -253,8 +255,8 @@ class DetailVM: ObservableObject {
                 print("MovieTVShow Rating" + String(self.movieTVShowRating))
                 
                 self.movieTVShowTrailer = data["video_details"]["video_id"].stringValue
-                
-                
+                self.imgURL = data["imageURL"].stringValue
+                print("image url: " + self.imgURL)
                 
             case .failure(let error):
                 print(error)
