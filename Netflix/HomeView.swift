@@ -69,7 +69,7 @@ struct Carousal: View{
                 let NowPlaying: [Movie] = Listing
                 ImageCarouselView(numberOfImages: NowPlaying.count) {
                     ForEach(NowPlaying){movie in
-                        NavigationLink(destination: DetailsView(DetailsVM: DetailVM(movieID: movie.movieID, isMovie:movie.isMovie))){
+                        NavigationLink(destination: DetailsView(DetailsVM: DetailVM(movieID: movie.movieID, isMovie:movie.isMovie, movieTMDBLink: movie.TMDBLink))){
                             ZStack{
                                 KFImage(URL(string: movie.imgURL))
                                     .resizable()
@@ -104,10 +104,8 @@ struct CategoryList: View{
             Text(CategoryName).font(.system(size: 25.0, design:.rounded)).fontWeight(.bold)
             ScrollView(.horizontal){
                 HStack(alignment: .top,spacing: 30){
-                    
                     ForEach(Listing){movie in
-                       
-                        NavigationLink(destination: DetailsView(DetailsVM: DetailVM(movieID: movie.movieID, isMovie:movie.isMovie))){
+                        NavigationLink(destination: DetailsView(DetailsVM: DetailVM(movieID: movie.movieID, isMovie:movie.isMovie, movieTMDBLink: movie.TMDBLink))){
                             VStack(){
                                 KFImage(URL(string: movie.imgURL))
                                     .resizable()
@@ -128,13 +126,13 @@ struct CategoryList: View{
                                     .multilineTextAlignment(.center)
                                 
                             }.frame(width: 100)
-                            
                         }
                         .buttonStyle(PlainButtonStyle())
                         .background(Color.white)
                         .contentShape(RoundedRectangle(cornerRadius: 10))
                         .contextMenu(menuItems: {
                             let source: String = String(movie.TMDBLink)//movie.imgURL
+                           // debugPrint("Soruce ",source)
                            
                             //Twitter
                             let TwitterShareString = String("https://twitter.com/intent/tweet?text=Check out this link: &url=\(source)&hashtags=CSCI571NetflixApp")
@@ -160,7 +158,6 @@ struct CategoryList: View{
                             Link(destination: twitterUrl, label: {Label("Share on Twitter", image: "Twitter")})
                             
                         })
-                       
                     }
                 }
             }

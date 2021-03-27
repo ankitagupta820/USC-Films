@@ -9,59 +9,19 @@ import Foundation
 import youtube_ios_player_helper
 import AVKit
 import Kingfisher
-//import Toast
+
 
 //load this page only when data is fetched
 struct DetailsView: View {
-   
 
-  //  let movieID: String
-   // let videoURL: String
     @State var isBookMarked: Bool = false
-    @State var ToastMessage:String = ""
+    @State var toastMessage:String = ""
     @State var showToast:Bool = false
     @State var videoId = NSMutableAttributedString(string: "QGnXv7vJkJY")
     @State var averageStarRating: Float = 4.5
     @ObservedObject var DetailsVM: DetailVM
-//<<<<<<< HEAD
-////    videoId = NSMutableAttributedString(string: DetailsVM.movieTVShowTrailer)
-//
-//=======
-//
-//
-////        .onAppear(){
-////    DetailsVM.fetchDetailPageData()
-////    }
-////
-////    @State var castMember: [CastHashableArray] =
-////        [CastHashableArray(actorName: "Henry Cavill",actorPic: "https://www.themoviedb.org/t/p/w276_and_h350_face/485V2gC6w1O9D96KUtKPyJpgm2j.jpg"),
-////        CastHashableArray(actorName:"Amy Adams",actorPic:"https://www.themoviedb.org/t/p/w276_and_h350_face/1h2r2VTpoFb5QefAaBYYQgQzL9z.jpg"),
-////        CastHashableArray(actorName:"Ray Fisher",
-////                          actorPic:"https://w ww.themoviedb.org/t/p/w276_and_h350_face/310snvA05xDOQZDn2fJSp242GHw.jpg"),
-////        CastHashableArray(actorName:"Gal Gadot",
-////                          actorPic: "https://www.themoviedb.org/t/p/w276_and_h350_face/1uFvXHf18NBnlwsJHVaikLXwp9Y.jpg"),
-////        CastHashableArray(actorName:"Gal Gadot",
-////                          actorPic: "https://www.themoviedb.org/t/p/w276_and_h350_face/1uFvXHf18NBnlwsJHVaikLXwp9Y.jpg"),
-////        CastHashableArray(actorName:"Gal Gadot",
-////                          actorPic: "https://www.themoviedb.org/t/p/w276_and_h350_face/1uFvXHf18NBnlwsJHVaikLXwp9Y.jpg")
-////    ]
-//
-////    @State var Reviews: [ReviewCard] = [ReviewCard(rating: 5, reviewAuth: "DorothyZ", reviewDate: "2021/03/14", reviewText:"This is a treat to all DC fans. Spellbinding graphics, gripping storyline, wonderful performances."),
-////                                    ReviewCard(rating: 4, reviewAuth: "CathyK", reviewDate: "2021/03/15", reviewText:"Simply amazed. Must-watch"),
-////                                    ReviewCard(rating: 5, reviewAuth: "DorothyZ", reviewDate: "2021/03/14", reviewText:"This is a treat to all DC fans. Spellbinding graphics, gripping storyline, wonderful performances")
-////    ]
-//
-////    @State var RecommendedMovies: [RecommendedMovieData] = [
-////        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg", movieName: "Wonder Woman", movieYear: "2020-04-14"),
-////        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020-04-14"),
-////        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020-04-14"),
-////        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020"),
-////        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020"),
-////        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020"),
-////        RecommendedMovieData(moviePoster: "https://www.themoviedb.org/t/p/w440_and_h660_face/yYMG2uT87auGztI9aKVzBB2pHvK.jpg", movieName: "Batman", movieYear: "2020")
-////
-////    ]
-//>>>>>>> a8a93839bdd9df8c86ed86491b143429d55c3870
+    @Environment(\.openURL) var openURL
+
     var body: some View{
         let layout=[
             GridItem(.flexible()),
@@ -85,27 +45,48 @@ struct DetailsView: View {
             .navigationBarTitle("")
 
             .toolbar{
-                ToolbarItem(placement: .navigationBarTrailing){
+                ToolbarItem(){
                     HStack{
                         Button(action:{
                             self.onBookmark()
                         }){
                             Image(systemName: self.isBookMarked == true ? "plus.circle.fill" : "plus.circle")
+                                
                         }
-                        .padding()
+
+                        let source: String = String(DetailsVM.movieTMDBLink)
                         Button(action:{
-                            self.onShare()
+                           
+                            let FacebookShareString = String("https://www.facebook.com/sharer/sharer.php?u="+source)
+                            let escapedFacebook = FacebookShareString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+                            let fbUrl: URL = URL(string:escapedFacebook)!
+                           openURL(fbUrl)
                         }){
-                            Image(systemName: "square.and.arrow.up")
+                            Image("facebook_orig")
+                                .resizable()
+                                .foregroundColor(Color.blue)
+                                .frame(width:20,height:20)
+                                
                         }
+                        Button(action:{
+                            
+                            let TwitterShareString = String("https://twitter.com/intent/tweet?text=Check out this link: &url=\(source)&hashtags=CSCI571NetflixApp")
+                            let escapedShareString = TwitterShareString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+                            let twitterUrl: URL = URL(string: escapedShareString)!
+                            openURL(twitterUrl)
+                        }){
+                            Image("Twitter_orig")
+                                .resizable()
+                                .foregroundColor(Color.blue)
+                                .frame(width:20,height:20)
+                            
+                        }
+
                     }
 
                 }
             }
-      //  }
-        
-       
-        
+
         player(videoID:NSMutableAttributedString(string: DetailsVM.movieTVShowTrailer)).frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 200)
      
         ScrollView{
@@ -168,6 +149,8 @@ struct DetailsView: View {
                         }
                     }
                 }
+         //       .frame(width:.infinity, height: 350)
+                //set height here
             }
 
         } //ScrollView for Cast & Crew
@@ -192,7 +175,6 @@ struct DetailsView: View {
                 if(DetailsVM.isMovie){
             Text("Recommended Movies").font(.system(size: 25.0, design:.rounded)).fontWeight(.bold)
                 .padding(.top,7)
-               // .padding(.leading,20)
                 }
                 else{
                     Text("Recommended Movies").font(.system(size: 25.0, design:.rounded)).fontWeight(.bold)
@@ -203,7 +185,7 @@ struct DetailsView: View {
                     HStack{
                         ForEach(0..<DetailsVM.recommendedMovies.count){i in
                            
-                            NavigationLink(destination: DetailsView(DetailsVM: DetailVM(movieID: DetailsVM.recommendedMovies[i].movieID, isMovie:DetailsVM.recommendedMovies[i].isMovie))){
+                            NavigationLink(destination: DetailsView(DetailsVM: DetailVM(movieID: DetailsVM.recommendedMovies[i].movieID, isMovie:DetailsVM.recommendedMovies[i].isMovie, movieTMDBLink: DetailsVM.recommendedMovies[i].TMDBLink))){
 
                                  
                                     KFImage(URL(string: DetailsVM.recommendedMovies[i].moviePoster))
@@ -224,6 +206,12 @@ struct DetailsView: View {
         }
     } //ScrollView ends
     //}
+        .toast(isPresented: self.$showToast) {
+            HStack {
+                Text(self.toastMessage)
+            }
+        }
+
         .onAppear{
             self.DetailsVM.fetchDetailPageData()
         }
@@ -231,19 +219,17 @@ struct DetailsView: View {
     
 
 
-    func onShare(){
-        print("Share tapped")
-    }
+  
     func onBookmark(){
         DefaultsStorage.toggleBookmark(ticker: self.DetailsVM.movieID, name: DetailsVM.movieTVShowName)
         self.isBookMarked = DefaultsStorage.isBookMarked(ticker: self.DetailsVM.movieID)
        // self.PortfolioVM.fetchPortfolio()
         
         if self.isBookMarked {
-            self.ToastMessage = "Adding \(self.DetailsVM.movieID) to Favorites"
+            self.toastMessage = "Adding \(self.DetailsVM.movieTVShowName) to Watchlist"
             //self.showToastMessage(controller: <#T##UIViewController#>, message: self.ToastMessage, seconds: 0.5)
         }else{
-            self.ToastMessage = "Removing \(self.DetailsVM.movieID) from Favorites"
+            self.toastMessage = "Removing \(self.DetailsVM.movieTVShowName) from Watchlist"
         }
         self.showToast=true
   
@@ -279,8 +265,16 @@ struct player: UIViewRepresentable{
 }
 
 
-
-
+//extending view for toast
+extension View {
+    func toast<Content>(isPresented: Binding<Bool>, content: @escaping () -> Content) -> some View where Content: View {
+        Toast(
+            isPresented: isPresented,
+            presenter: { self },
+            content: content
+        )
+    }
+}
 
 //for recommended movies list
 struct RecommendedMovieData: Hashable{
@@ -290,6 +284,7 @@ struct RecommendedMovieData: Hashable{
     var movieYear: String
     var movieID: String
     var isMovie: Bool
+    var TMDBLink: String
     func hash(into hasher: inout Hasher){
         hasher.combine(movieName+moviePoster+String(randomInt))
     }

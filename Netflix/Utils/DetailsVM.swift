@@ -14,6 +14,8 @@ class DetailVM: ObservableObject {
     //subject to change
     let movieID: String
     let isMovie: Bool
+    let movieTMDBLink: String
+    
     let host:String = "http://localhost:4001/"
     
     
@@ -30,7 +32,7 @@ class DetailVM: ObservableObject {
     @Published var movieTVShowTrailer: String
   //  @Published var movieAvgRating: Float
     
-    init(movieID: String, isMovie: Bool){
+    init(movieID: String, isMovie: Bool, movieTMDBLink: String){
         
         //depends what data is fetched from tmdb
         self.movieID = movieID
@@ -60,6 +62,7 @@ class DetailVM: ObservableObject {
         self.reviews=[]
         self.recommendedMovies=[]
         self.movieTVShowTrailer = "Default Trailer"
+        self.movieTMDBLink = movieTMDBLink
 
        // fetchDetailPageData()
     }
@@ -99,7 +102,9 @@ class DetailVM: ObservableObject {
                         movieName: item["title"].stringValue,
                         movieYear: String(item["releaseDate"].stringValue.prefix(4)),
                         movieID: item["id"].stringValue,
-                        isMovie: self.isMovie
+                        isMovie: self.isMovie,
+                        TMDBLink: item["TMDBLink"].stringValue
+                        
                        
                     )
 

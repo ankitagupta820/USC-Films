@@ -16,7 +16,7 @@ struct WatchlistView: View {
             VStack {
                 LazyVGrid(columns: columns, spacing: 3) {
                     ForEach(watchListVM.watchList) { item in
-                        NavigationLink(destination: DetailsView(DetailsVM: DetailVM(movieID: item.movieID, isMovie: true))) {
+                        NavigationLink(destination: DetailsView(DetailsVM: DetailVM(movieID: item.movieID, isMovie: true, movieTMDBLink: item.TMDBLink))) {
                             RemoteImage(url: item.imgURL)
                                 .aspectRatio(contentMode: .fit)
                                 .onDrag({
