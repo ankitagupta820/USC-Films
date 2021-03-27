@@ -21,8 +21,18 @@ class DefaultsStorage {
         }
     }
     
-    static func getMoviesList() -> [MovieTV]{
-        print("in getMoviesList")
+    static func swap(from: NSInteger, to: NSInteger) {
+        let defaults = UserDefaults.standard
+        let encoder = JSONEncoder()
+        var moviesList = getMoviesList()
+        let temp = moviesList[from]
+        moviesList[from] = moviesList[to]
+        moviesList[to] = temp
+        let moviesListJson = try? encoder.encode(moviesList)
+        defaults.set(moviesListJson!, forKey: "movies")
+    }
+    
+    static func getMoviesList() -> [MovieTV] {
         let defaults = UserDefaults.standard
         let decoder = JSONDecoder()
         if ((defaults.object(forKey: "movies") as? Data) != nil) {

@@ -29,6 +29,7 @@ struct DropViewDelegate: DropDelegate {
             let fromItem = watchListVM.watchList[fromIndex]
             watchListVM.watchList[fromIndex] = watchListVM.watchList[toIndex]
             watchListVM.watchList[toIndex] = fromItem
+            DefaultsStorage.swap(from: fromIndex, to: toIndex)
         }
     }
 }
