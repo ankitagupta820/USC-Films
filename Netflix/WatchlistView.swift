@@ -13,14 +13,13 @@ struct WatchlistView: View {
     @ObservedObject var watchListVM : WatchListVM
     var body: some View {
         NavigationView {
-            VStack {
+            ScrollView {
                 LazyVGrid(columns: columns, spacing: 3) {
                     ForEach(watchListVM.watchList) { item in
                         NavigationLink(destination: DetailsView(DetailsVM: DetailVM(movieID: item.movieID, isMovie: true, movieTMDBLink: item.TMDBLink))) {
                             RemoteImage(url: item.imgURL)
                                 .aspectRatio(contentMode: .fit)
                                 .onDrag({
-                                    print(item.title)
                                     watchListVM.currentMovieTV = item
                                     return NSItemProvider(contentsOf: URL(string: item.title))!
                                 })
@@ -34,9 +33,12 @@ struct WatchlistView: View {
                 .padding(.trailing)
             }
             .navigationBarTitle("Watch List")
+            .onAppear{
+                self.watchListVM.watchList = DefaultsStorage.getMoviesList()
+            }
+            
         }
-        
-        
-        
-    }}
+    }
+    
+}
 

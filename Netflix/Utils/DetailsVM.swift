@@ -14,9 +14,10 @@ class DetailVM: ObservableObject {
     //subject to change
     let movieID: String
     let isMovie: Bool
+
     let movieTMDBLink: String
-    
-    let host:String = "http://localhost:4001/"
+
+    let host:String = global.server
     
     
     @Published var movieTVShowName: String
@@ -30,6 +31,7 @@ class DetailVM: ObservableObject {
     @Published var reviews: [ReviewCard]
     @Published var recommendedMovies: [RecommendedMovieData]
     @Published var movieTVShowTrailer: String
+    @Published var imgURL: String
   //  @Published var movieAvgRating: Float
     
     init(movieID: String, isMovie: Bool, movieTMDBLink: String){
@@ -62,7 +64,10 @@ class DetailVM: ObservableObject {
         self.reviews=[]
         self.recommendedMovies=[]
         self.movieTVShowTrailer = "Default Trailer"
+
         self.movieTMDBLink = movieTMDBLink
+
+        self.imgURL = ""
 
        // fetchDetailPageData()
     }
@@ -258,8 +263,8 @@ class DetailVM: ObservableObject {
                 print("MovieTVShow Rating" + String(self.movieTVShowRating))
                 
                 self.movieTVShowTrailer = data["video_details"]["video_id"].stringValue
-                
-                
+                self.imgURL = data["imageURL"].stringValue
+                print("image url: " + self.imgURL)
                 
             case .failure(let error):
                 print(error)

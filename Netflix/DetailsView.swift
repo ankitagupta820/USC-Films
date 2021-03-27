@@ -60,6 +60,7 @@ struct DetailsView: View {
                             let FacebookShareString = String("https://www.facebook.com/sharer/sharer.php?u="+source)
                             let escapedFacebook = FacebookShareString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
                             let fbUrl: URL = URL(string:escapedFacebook)!
+                            debugPrint("FB uRL ",fbUrl)
                            openURL(fbUrl)
                         }){
                             Image("facebook_orig")
@@ -73,6 +74,7 @@ struct DetailsView: View {
                             let TwitterShareString = String("https://twitter.com/intent/tweet?text=Check out this link: &url=\(source)&hashtags=CSCI571NetflixApp")
                             let escapedShareString = TwitterShareString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
                             let twitterUrl: URL = URL(string: escapedShareString)!
+                            debugPrint("Twitter uRL ",twitterUrl)
                             openURL(twitterUrl)
                         }){
                             Image("Twitter_orig")
@@ -214,6 +216,11 @@ struct DetailsView: View {
 
         .onAppear{
             self.DetailsVM.fetchDetailPageData()
+            if DefaultsStorage.get(key: self.DetailsVM.movieID) != nil {
+                self.isBookMarked = true
+            } else {
+                self.isBookMarked = false
+            }
         }
     }
     
@@ -221,19 +228,18 @@ struct DetailsView: View {
 
   
     func onBookmark(){
-        DefaultsStorage.toggleBookmark(ticker: self.DetailsVM.movieID, name: DetailsVM.movieTVShowName)
-        self.isBookMarked = DefaultsStorage.isBookMarked(ticker: self.DetailsVM.movieID)
-       // self.PortfolioVM.fetchPortfolio()
         
         if self.isBookMarked {
-            self.toastMessage = "Adding \(self.DetailsVM.movieTVShowName) to Watchlist"
-            //self.showToastMessage(controller: <#T##UIViewController#>, message: self.ToastMessage, seconds: 0.5)
+            self.toastMessage = "Removing \(self.DetailsVM.movieTVShowName) to Watchlist"
+            DefaultsStorage.remove(key: self.DetailsVM.movieID)
         }else{
-            self.toastMessage = "Removing \(self.DetailsVM.movieTVShowName) from Watchlist"
+            self.toastMessage = "Adding \(self.DetailsVM.movieTVShowName) from Watchlist"
+          //  DefaultsStorage.store(key: self.DetailsVM.movieID, movie: self.DetailsVM.movieTVShowName)
+            
         }
+
+        self.isBookMarked.toggle()
         self.showToast=true
-  
-        
     }
     func showToastMessage(controller: UIViewController, message:String, seconds:Double){
         let alert=UIAlertController(title: nil, message: message, preferredStyle: .alert)

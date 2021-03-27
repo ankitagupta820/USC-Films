@@ -178,7 +178,7 @@ router.get('/details', function (req, res) {
                     }
                     let video_details = processMoviesVideoResult(video_resp.data.results);
                     resp.data['releaseDate'] = resp.data["first_air_date"];
-                    resp.data.imageURL = resp.data['poster_path'];
+                    resp.data.imageURL = "https://image.tmdb.org/t/p/w500" + resp.data['poster_path'];
                     resp.data.video_details = video_details;
 
                     // overriding genres and spoken_languages in existing API
@@ -431,6 +431,6 @@ router.get('/trending', function (req, res) {
             }
         });
 });
- 
+
 
 module.exports = router;
