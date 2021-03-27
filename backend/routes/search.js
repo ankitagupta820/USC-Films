@@ -12,6 +12,7 @@ function processMoviesResult(data){
     result['popularity'] = data['popularity'];
     result['releaseDate'] = data['release_date'];
     result['mediaType'] = data['media_type'];
+    result['TMDBLink'] = "https://www.themoviedb.org/"+"movie"+"/" + data['id'];
     return result;
 }
 
@@ -24,6 +25,7 @@ function processTvSeriesResult(data){
     result['popularity'] = data['popularity'];
     result['releaseDate'] = data['first_air_date'];
     result['mediaType'] = data['media_type'];
+    result['TMDBLink'] = "https://www.themoviedb.org/"+"tv"+"/" + data['id'];
     return result;
 }
 
