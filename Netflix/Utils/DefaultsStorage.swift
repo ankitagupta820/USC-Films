@@ -10,6 +10,9 @@ import Foundation
 class DefaultsStorage {
     
     static func store(key: String, movie: MovieTV) {
+        if get(key: key) != nil {
+            return
+        }
         let defaults = UserDefaults.standard
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(movie) {
@@ -64,6 +67,9 @@ class DefaultsStorage {
     }
     
     static func remove(key: String) {
+        if get(key: key) == nil {
+            return
+        }
         let defaults = UserDefaults.standard
         let encoder = JSONEncoder()
         defaults.removeObject(forKey: key)

@@ -98,7 +98,7 @@ class DetailVM: ObservableObject {
             case .success(let value):
                 let json = JSON(value)
                 let data = json["data"]
-                print("Data ",data)
+                //print("Data ",data)
                 var recoMovies: [RecommendedMovieData] = []
                 for item in data.arrayValue {
                     let recoMovieObj = RecommendedMovieData(
