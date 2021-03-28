@@ -13,11 +13,14 @@ struct HomeView: View {
     @ObservedObject var HomeVM: HomeVM
     @State var typeToggle: Bool = true
     
+    // if (!HomeVM.isLoaded) {
+    //   show a spinner
+    //}
+    
     var body: some View {
         
         NavigationView{
             ScrollView{
-                
                 if self.typeToggle{
                     MoviesListing
                 }else{
@@ -98,28 +101,39 @@ struct CategoryList: View{
     
     var CategoryName: String
     var Listing: [Movie]
+    @State var toastMessage:String = ""
+    @State var showToast:Bool = false
+    @State var bookmarks: [Bool] = Array(repeating: false, count: 500)
+    
+    init(CategoryName: String, Listing: [Movie]) {
+        self.CategoryName = CategoryName
+        self.Listing = Listing
+        for index in Listing.indices {
+            self.bookmarks[index] = (DefaultsStorage.get(key: Listing[index].movieID) != nil)
+        }
+    }
     
     var body: some View {
         VStack(alignment: .leading){
             Text(CategoryName).font(.system(size: 25.0, design:.rounded)).fontWeight(.bold)
             ScrollView(.horizontal){
                 HStack(alignment: .top,spacing: 30){
-                    ForEach(Listing){movie in
-                        NavigationLink(destination: DetailsView(DetailsVM: DetailVM(movieID: movie.movieID, isMovie:movie.isMovie, movieTMDBLink: movie.TMDBLink))){
+                    ForEach(Listing.indices, id:\.self){ index in
+                        NavigationLink(destination: DetailsView(DetailsVM: DetailVM(movieID: Listing[index].movieID, isMovie:Listing[index].isMovie, movieTMDBLink: Listing[index].TMDBLink))){
                             VStack(){
-                                KFImage(URL(string: movie.imgURL))
+                                KFImage(URL(string: Listing[index].imgURL))
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
                                     .clipped()
                                     .frame(width: 100, height: 150)
                                     .cornerRadius(10)
-                                Text(movie.title)
+                                Text(Listing[index].title)
                                     .font(.caption)
                                     .fontWeight(.heavy)
                                     .fixedSize(horizontal: false, vertical: true)
                                     .multilineTextAlignment(.center)
                                 
-                                Text("("+movie.year+")")
+                                Text("("+Listing[index].year+")")
                                     .font(.caption)
                                     .fontWeight(.semibold)
                                     .foregroundColor(.secondary)
@@ -131,7 +145,7 @@ struct CategoryList: View{
                         .background(Color.white)
                         .contentShape(RoundedRectangle(cornerRadius: 10))
                         .contextMenu(menuItems: {
-                            let source: String = String(movie.TMDBLink)//movie.imgURL
+                            let source: String = String(Listing[index].TMDBLink)//movie.imgURL
                            // debugPrint("Soruce ",source)
                            
                             //Twitter
@@ -148,9 +162,30 @@ struct CategoryList: View{
                             //let YoutubeShareUrl: URL = URL(string: source)?
                             
                             Button {
-                                //bookmark
+                                let movie = Listing[index]
+                                if bookmarks[index] {
+                                    DefaultsStorage.remove(key: movie.movieID)
+                                    self.toastMessage = "Removing \(movie.title) from Watchlist"
+                                    print("remove because bookmarked")
+                                    bookmarks[index].toggle()
+                                    self.showToast=true
+                                } else {
+                                    DefaultsStorage.store(key: movie.movieID, movie: MovieTV(
+                                                            id: (movie.movieID as NSString).integerValue,
+                                                            movieID: movie.movieID, title: movie.title, imgURL: movie.imgURL, isMovie: movie.isMovie, TMDBLink: movie.TMDBLink))
+                                    self.toastMessage = "Adding \(movie.title) to Watchlist"
+                                    print("add because not bookmarked")
+                                    bookmarks[index].toggle()
+                                    self.showToast=true
+                                }
+                                
+                                
                             } label: {
-                                Label("Add to watchList", systemImage:"bookmark.fill")
+                                if (bookmarks[index]) {
+                                    Label("Remove from watchList", systemImage:"bookmark.fill")
+                                } else {
+                                    Label("Add to watchList", systemImage:"bookmark")
+                                }
                             }
                             
                           //  Link(destination: YoutubeShareUrl, label: {Label("Watch Trailer", systemImage: "film")})
@@ -158,14 +193,23 @@ struct CategoryList: View{
                             Link(destination: twitterUrl, label: {Label("Share on Twitter", image: "Twitter")})
                             
                         })
+                        
                     }
                 }
             }
         }
+        
+        .onAppear {
+            for index in Listing.indices {
+                self.bookmarks[index] = (DefaultsStorage.get(key: Listing[index].movieID) != nil)
+            }
+        }
     }
+    
+    
+    
+    
 }
-
-
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {

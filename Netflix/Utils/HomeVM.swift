@@ -11,7 +11,7 @@ import Alamofire
 class HomeVM: ObservableObject{
     
     let host:String = global.server
-    var isLoaded: Bool
+    var isLoadedArray: [Bool] = [false, false, false, false, false, false]
    
     
     @Published var nowPlayingMovie: [Movie]
@@ -21,11 +21,12 @@ class HomeVM: ObservableObject{
     @Published var airingToday: [Movie]
     @Published var topRatedTV: [Movie]
     @Published var popularTV: [Movie]
+    
+    @Published var isLoaded: Bool = false
 
     
     
     init(){
-        self.isLoaded=false
         
         self.nowPlayingMovie=[Movie(movieID: "278",title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL", TMDBLink:"Default url", isMovie: true)]
         self.topRatedMovie=[Movie(movieID: "278",title: "DefaultTitle", year:"DefaultYear", imgURL: "defaultURL",TMDBLink:"Default url", isMovie: true)]
@@ -37,12 +38,19 @@ class HomeVM: ObservableObject{
         fetchHomePageData()
     }
     
+    func checkIsLoaded() -> Bool{
+        for isLoaded in self.isLoadedArray {
+            if(!isLoaded) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
     func fetchHomePageData(){
-        
         self.fetchNowPlaying()
         self.fetchTopRated()
         self.fetchPopular()
-        
     }
     
     func fetchNowPlaying(){
@@ -58,7 +66,7 @@ class HomeVM: ObservableObject{
             case .success(let value):
                 let json = JSON(value)
                 let data = json["data"]
-                debugPrint("Data ",data)
+               // debugPrint("Data ",data)
                 
                 var MoviesArray: [Movie] = []
                 for item in data.arrayValue {
@@ -73,6 +81,8 @@ class HomeVM: ObservableObject{
                     MoviesArray.append(movieObj)
                 }
                 self.nowPlayingMovie=MoviesArray
+                self.isLoadedArray[0] = true
+                self.isLoaded = self.checkIsLoaded()
                 debugPrint("nowPlaying fetched!")
                 
             case .failure(let error):
@@ -100,6 +110,8 @@ class HomeVM: ObservableObject{
                     MoviesArray.append(movieObj)
                 }
                 self.airingToday=MoviesArray
+                self.isLoadedArray[1] = true
+                self.isLoaded = self.checkIsLoaded()
                 debugPrint("Airing today fetched!")
                 
             case .failure(let error):
@@ -130,6 +142,8 @@ class HomeVM: ObservableObject{
                     topRatedArray.append(movieObj)
                 }
                 self.topRatedMovie=topRatedArray
+                self.isLoadedArray[2] = true
+                self.isLoaded = self.checkIsLoaded()
                 debugPrint("topRatedMovie fetched!")
                 
             case .failure(let error):
@@ -158,6 +172,8 @@ class HomeVM: ObservableObject{
                     topRatedArray.append(movieObj)
                 }
                 self.topRatedTV=topRatedArray
+                self.isLoadedArray[3] = true
+                self.isLoaded = self.checkIsLoaded()
                 debugPrint("topRatedTV fetched!")
                 
             case .failure(let error):
@@ -189,8 +205,9 @@ class HomeVM: ObservableObject{
                     MoviesArray.append(movieObj)
                 }
                 self.popularMovie=MoviesArray
+                self.isLoadedArray[4] = true
+                self.isLoaded = self.checkIsLoaded()
                 debugPrint("PopularMovie fetched!")
-                self.isLoaded=true
                 
                 
             case .failure(let error):
@@ -218,8 +235,10 @@ class HomeVM: ObservableObject{
                     MoviesArray.append(movieObj)
                 }
                 self.popularTV=MoviesArray
+                self.isLoadedArray[5] = true
+                self.isLoaded = self.checkIsLoaded()
                 debugPrint("PopularTV fetched!")
-                self.isLoaded=true
+               // self.isLoaded=true
                 
                 
             case .failure(let error):
