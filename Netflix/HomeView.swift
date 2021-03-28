@@ -8,6 +8,30 @@
 import SwiftUI
 import Kingfisher
 
+struct SplashScreenView: View{
+    
+    @State var endSplash = false
+   
+    var body: some View{
+        HomeView(HomeVM: HomeVM())
+        VStack{
+//        Text("Hello, world!")
+//            .padding()
+        }
+        .onAppear(perform: animateSplash)
+        .opacity(endSplash ? 0 : 1)
+    }
+    
+    func animateSplash(){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25){
+            withAnimation(Animation.easeOut(duration: 0.50)){
+                endSplash.toggle()
+            }
+        }
+    }
+    
+}
+
 struct HomeView: View {
     
     @ObservedObject var HomeVM: HomeVM
@@ -169,6 +193,7 @@ struct CategoryList: View{
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(HomeVM: HomeVM())
+        SplashScreenView()
+        //HomeView(HomeVM: HomeVM())
     }
 }
