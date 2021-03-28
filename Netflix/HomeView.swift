@@ -72,7 +72,9 @@ struct HomeView: View {
                         }
                     }
                 }
+                
             }.padding()
+            .navigationViewStyle(StackNavigationViewStyle())
         }
     }
     
