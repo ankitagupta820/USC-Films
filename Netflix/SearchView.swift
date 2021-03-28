@@ -9,22 +9,20 @@ import Foundation
 import SwiftUI
 
 struct SearchView: View {
-    let movies = ["star wars", "avengers", "alien", "interstellar", "justice league"]
     @State private var searchText : String = ""
+    @ObservedObject var searchVM : SearchVM = SearchVM()
     var body: some View {
         NavigationView {
            VStack {
-                SearchBar(text: $searchText, placeholder: "Search Movies, TVs...")
-                if (searchText.count >= 3) {
-                    List {
-                        ForEach(self.movies, id: \.self) { movie in
-                            NavigationLink(destination:
-                                SearchResultView(searchVM: SearchVM(input: movie))) {
-                                Text(movie)
-                            }
-                        }
+                SearchBar(searchVM: self.searchVM, text: $searchText, placeholder: "Search Movies, TVs...")
+            if (searchVM.searchResult.count > 0 && searchText.count >= 3 && searchVM.isLoaded) {
+                    SearchResultView(searchVM: self.searchVM, searchText: self.$searchText)
+                }
+            if (searchText.count >= 3 && searchVM.searchResult.count == 0 && searchVM.isLoaded){
+                    VStack {
+                        Text("No Results")
+                            .font(.system(size: 32))
                     }
-                    .listStyle(PlainListStyle())
                 }
                 Spacer()
             }

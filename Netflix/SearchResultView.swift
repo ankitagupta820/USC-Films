@@ -10,6 +10,7 @@ import SwiftUI
 
 struct SearchResultView: View {
     @ObservedObject var searchVM : SearchVM
+    @Binding var searchText: String
     var body: some View {
             ScrollView {
                 VStack {
@@ -22,11 +23,6 @@ struct SearchResultView: View {
                 }
                 .padding(.leading)
                 .padding(.trailing)
-            }
-            .navigationBarTitle("Search Result")
-            
-            .onAppear {
-                searchVM.fetchResults(input: searchVM.input)
             }
     }
     

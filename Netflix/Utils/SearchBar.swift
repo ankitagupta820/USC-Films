@@ -1,27 +1,34 @@
 import SwiftUI
 struct SearchBar: UIViewRepresentable {
-
+    @ObservedObject var searchVM: SearchVM
     @Binding var text: String
     var placeholder: String
+    
 
     class Coordinator: NSObject, UISearchBarDelegate {
 
         @Binding var text: String
-
-        init(text: Binding<String>) {
+        @ObservedObject var searchVM: SearchVM
+        let debouncer = Debouncer(delay: 0.5)
+        init(text: Binding<String>, searchVM: SearchVM) {
             _text = text
+            self.searchVM = searchVM
         }
 
         func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
             text = searchText
             if(searchText.count >= 3) {
-                print(searchText);
+                self.searchVM.isLoaded = false
+                //print("search text: " + text)
+                self.debouncer.run(action:{
+                    self.searchVM.fetchResults(input: self.text)
+                })
             }
         }
     }
 
     func makeCoordinator() -> SearchBar.Coordinator {
-        return Coordinator(text: $text)
+        return Coordinator(text: $text, searchVM: searchVM)
     }
 
     func makeUIView(context: UIViewRepresentableContext<SearchBar>) -> UISearchBar {

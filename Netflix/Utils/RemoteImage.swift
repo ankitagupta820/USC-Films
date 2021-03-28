@@ -42,8 +42,10 @@ struct RemoteImage: View {
     var failure: Image
 
     var body: some View {
-        selectImage()
-            .resizable()
+        if loader.state == LoadState.success {
+            selectImage()
+                .resizable()
+        }
     }
 
     init(url: String, loading: Image = Image(systemName: "photo"), failure: Image = Image(systemName: "multiply.circle")) {
@@ -53,17 +55,18 @@ struct RemoteImage: View {
     }
 
     private func selectImage() -> Image {
-        switch loader.state {
-        case .loading:
-            return loading
-        case .failure:
-            return failure
-        default:
-            if let image = UIImage(data: loader.data) {
-                return Image(uiImage: image)
-            } else {
-                return failure
-            }
-        }
+//        switch loader.state {
+//        case .loading:
+//            return loading
+//        case .failure:
+//            return failure
+//        default:
+//            if let image = UIImage(data: loader.data) {
+//                return Image(uiImage: image)
+//            } else {
+//                return failure
+//            }
+//        }
+        return Image(uiImage: UIImage(data: loader.data)!)
     }
 }

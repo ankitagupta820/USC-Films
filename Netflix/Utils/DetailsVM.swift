@@ -18,14 +18,15 @@ class DetailVM: ObservableObject {
     let movieTMDBLink: String
 
     let host:String = global.server
-    
+    var isLoadedArray: [Bool] = [false, false, false, false]
     
     @Published var movieTVShowName: String
     @Published var movieTVShowYear: String
     @Published var movieTVShowGenre: String
     @Published var movieTVShowDescription:String
     @Published var movieTVShowRating: Float
-    @Published var isLoading: Bool = true
+    @Published var isLoaded: Bool = false
+    
     //@Published var isMovie: Bool = true
     @Published var castMemberData: [CastHashableArray]
     @Published var reviews: [ReviewCard]
@@ -60,7 +61,6 @@ class DetailVM: ObservableObject {
                               actorPic: "https://www.themoviedb.org/t/p/w276_and_h350_face/1uFvXHf18NBnlwsJHVaikLXwp9Y.jpg")
            ]
         self.isMovie=isMovie
-        self.isLoading=false
         self.reviews=[]
         self.recommendedMovies=[]
         self.movieTVShowTrailer = "Default Trailer"
@@ -69,7 +69,16 @@ class DetailVM: ObservableObject {
 
         self.imgURL = ""
 
-       // fetchDetailPageData()
+        //fetchDetailPageData()
+    }
+    
+    func checkIsLoaded() -> Bool{
+        for isLoaded in self.isLoadedArray {
+            if(!isLoaded) {
+                return false;
+            }
+        }
+        return true;
     }
     
     
@@ -117,6 +126,8 @@ class DetailVM: ObservableObject {
                 }
                 self.recommendedMovies=recoMovies
                 debugPrint("Recos fetched")
+                self.isLoadedArray[3] = true
+                self.isLoaded = self.checkIsLoaded()
             case .failure(let error):
                 print(error)
                 
@@ -168,6 +179,8 @@ class DetailVM: ObservableObject {
                     }
                 }
                 self.reviews=reviews
+                self.isLoadedArray[2] = true
+                self.isLoaded = self.checkIsLoaded()
                 //debugPrint("Reviews fetched")
             case .failure(let error):
                 print(error)
@@ -214,6 +227,8 @@ class DetailVM: ObservableObject {
                 }
                 self.castMemberData=castMembers
               //  debugPrint("Cast fetched ",self.castMemberData.count)
+                self.isLoadedArray[1] = true
+                self.isLoaded = self.checkIsLoaded()
             case .failure(let error):
                 print(error)
                 
@@ -265,6 +280,8 @@ class DetailVM: ObservableObject {
                 self.movieTVShowTrailer = data["video_details"]["video_id"].stringValue
                 self.imgURL = data["imageURL"].stringValue
                 print("image url: " + self.imgURL)
+                self.isLoadedArray[0] = true
+                self.isLoaded = self.checkIsLoaded()
                 
             case .failure(let error):
                 print(error)

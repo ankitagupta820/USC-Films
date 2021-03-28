@@ -12,6 +12,7 @@
 		834321B026055005006A5A9B /* WatchListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834321AE26055005006A5A9B /* WatchListVM.swift */; };
 		834321B526055020006A5A9B /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834321B426055020006A5A9B /* SearchResultView.swift */; };
 		834321BD260554B7006A5A9B /* DropViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834321BC260554B7006A5A9B /* DropViewDelegate.swift */; };
+		834C695D2610582C0004AA44 /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834C695C2610582C0004AA44 /* Debouncer.swift */; };
 		83868FD2260C3D8800CB65A8 /* SearchVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83868FD1260C3D8800CB65A8 /* SearchVM.swift */; };
 		83868FD7260C3EF500CB65A8 /* global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83868FD6260C3EF500CB65A8 /* global.swift */; };
 		887F47E1389CD14B40E9C40B /* Pods_Netflix.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A5272DEE9EB028104A73AE1 /* Pods_Netflix.framework */; };
@@ -73,6 +74,7 @@
 		834321AE26055005006A5A9B /* WatchListVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchListVM.swift; sourceTree = "<group>"; };
 		834321B426055020006A5A9B /* SearchResultView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultView.swift; sourceTree = "<group>"; };
 		834321BC260554B7006A5A9B /* DropViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropViewDelegate.swift; sourceTree = "<group>"; };
+		834C695C2610582C0004AA44 /* Debouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debouncer.swift; sourceTree = "<group>"; };
 		83868FD1260C3D8800CB65A8 /* SearchVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVM.swift; sourceTree = "<group>"; };
 		83868FD6260C3EF500CB65A8 /* global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = global.swift; sourceTree = "<group>"; };
 		8A5272DEE9EB028104A73AE1 /* Pods_Netflix.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Netflix.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -180,12 +182,10 @@
 				DFF0BB4426072165000FDFA0 /* LongText.swift */,
 				DFC984D52607D40D001F55B2 /* DetailedReview.swift */,
 				DFC984DA2607E1B0001F55B2 /* HTMLView.swift */,
-
 				DF4FCEE5260EB25F0061B377 /* Toast.swift */,
-
 				83868FD1260C3D8800CB65A8 /* SearchVM.swift */,
 				83868FD6260C3EF500CB65A8 /* global.swift */,
-
+				834C695C2610582C0004AA44 /* Debouncer.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -526,6 +526,7 @@
 				834321BD260554B7006A5A9B /* DropViewDelegate.swift in Sources */,
 				DFC5F0572601C4B300A4F15C /* ReviewCard.swift in Sources */,
 				F025267D25FC580900DD4061 /* DetailsView.swift in Sources */,
+				834C695D2610582C0004AA44 /* Debouncer.swift in Sources */,
 				DF4FCEE6260EB25F0061B377 /* Toast.swift in Sources */,
 				DFC5F0432601C3B000A4F15C /* DetailsVM.swift in Sources */,
 			);

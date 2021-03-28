@@ -9,15 +9,17 @@ import Foundation
 import SwiftyJSON
 import Alamofire
 class SearchVM: ObservableObject {
-    @Published var searchResult: [Movie]
+    @Published var searchResult: [Movie] = []
+    @Published var isLoaded = false
     let host: String = global.server
-    let input: String
-    init(input: String) {
-        self.input = input
-        self.searchResult = []
-    }
+//    let input: String
+//    init(input: String) {
+//        self.input = input
+//        self.searchResult = []
+//    }
     
     func fetchResults(input: String){
+        //print("search: " + input)
         let url: String = host + "search/all?query=" + input
         AF.request(url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!, encoding:JSONEncoding.default).responseJSON{ response in
             switch response.result{
@@ -37,10 +39,11 @@ class SearchVM: ObservableObject {
                         vote: item["voteAverage"].doubleValue
                        
                     )
-                    print("search result: " + movie.title)
+                    //print("search result: " + movie.title)
                     temp.append(movie)
                 }
                 self.searchResult = temp
+                self.isLoaded = true
             case .failure(let error):
                 print(error)
             }

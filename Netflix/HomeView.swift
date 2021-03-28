@@ -6,7 +6,7 @@
 //  Created by Ankita Gupta on 12/03/21.
 //
 import SwiftUI
-import Kingfisher
+//import Kingfisher
 
 struct SplashScreenView: View{
     
@@ -44,33 +44,36 @@ struct HomeView: View {
     //}
     
     var body: some View {
-        
-        NavigationView{
-            ScrollView{
-                if HomeVM.isLoaded {
-                    if self.typeToggle{
-                        MoviesListing
-                    }else{
-                        TVShowsListing
+        if !HomeVM.isLoaded {
+            Loading()
+        } else {
+            NavigationView{
+                ScrollView{
+                    if HomeVM.isLoaded {
+                        if self.typeToggle{
+                            MoviesListing
+                        }else{
+                            TVShowsListing
+                        }
                     }
                 }
-            }
-            .toast(isPresented: self.$showToast) {
-                HStack {
-                    Text(self.toastMessage)
-                }
-            }
-            .navigationBarTitle("Netflix")
-            .toolbar {
-                ToolbarItem() {
-                    Button{
-                        self.typeToggle.toggle()
-                    }label:{
-                        Text(self.typeToggle ? "TV shows" : "Movies")
+                .toast(isPresented: self.$showToast) {
+                    HStack {
+                        Text(self.toastMessage)
                     }
                 }
-            }
-        }.padding()
+                .navigationBarTitle("Netflix")
+                .toolbar {
+                    ToolbarItem() {
+                        Button{
+                            self.typeToggle.toggle()
+                        }label:{
+                            Text(self.typeToggle ? "TV shows" : "Movies")
+                        }
+                    }
+                }
+            }.padding()
+        }
     }
     
     var MoviesListing: some View{
@@ -107,15 +110,15 @@ struct Carousal: View{
                     ForEach(NowPlaying){movie in
                         NavigationLink(destination: DetailsView(DetailsVM: DetailVM(movieID: movie.movieID, isMovie:movie.isMovie, movieTMDBLink: movie.TMDBLink))){
                             ZStack{
-                                KFImage(URL(string: movie.imgURL))
-                                    .resizable()
+                                RemoteImage(url: movie.imgURL)
+                                   // .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: geometry.size.width, height:geometry.size.height)
                                     .clipped()
                                     .blur(radius: 40, opaque: true)
                                 VStack{
-                                    KFImage(URL(string: movie.imgURL))
-                                        .resizable()
+                                    RemoteImage(url: movie.imgURL)
+                                       // .resizable()
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: geometry.size.width, height:geometry.size.height)
                                         .clipped()

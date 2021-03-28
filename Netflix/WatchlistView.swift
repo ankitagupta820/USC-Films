@@ -33,10 +33,9 @@ struct WatchlistView: View {
                 .padding(.trailing)
             }
             .navigationBarTitle("Watch List")
-            .onAppear{
+            .onAppear {
                 self.watchListVM.watchList = DefaultsStorage.getMoviesList()
             }
-            
         }
     }
     
