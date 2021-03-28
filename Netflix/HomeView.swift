@@ -36,6 +36,8 @@ struct HomeView: View {
     
     @ObservedObject var HomeVM: HomeVM
     @State var typeToggle: Bool = true
+    @State var toastMessage:String = ""
+    @State var showToast:Bool = false
     
     // if (!HomeVM.isLoaded) {
     //   show a spinner
@@ -45,10 +47,17 @@ struct HomeView: View {
         
         NavigationView{
             ScrollView{
-                if self.typeToggle{
-                    MoviesListing
-                }else{
-                    TVShowsListing
+                if HomeVM.isLoaded {
+                    if self.typeToggle{
+                        MoviesListing
+                    }else{
+                        TVShowsListing
+                    }
+                }
+            }
+            .toast(isPresented: self.$showToast) {
+                HStack {
+                    Text(self.toastMessage)
                 }
             }
             .navigationBarTitle("Netflix")
@@ -68,8 +77,8 @@ struct HomeView: View {
         
         VStack{
             Carousal(CategoryName: "Now Playing", Listing: self.HomeVM.nowPlayingMovie)
-            CategoryList(CategoryName: "Top Rated", Listing: self.HomeVM.topRatedMovie)
-            CategoryList(CategoryName: "Popular", Listing: self.HomeVM.popularMovie)
+            CategoryList(CategoryName: "Top Rated", Listing: self.HomeVM.topRatedMovie, toastMessage: self.$toastMessage, showToast: self.$showToast)
+            CategoryList(CategoryName: "Popular", Listing: self.HomeVM.popularMovie, toastMessage: self.$toastMessage, showToast: self.$showToast)
         }
     }
     
@@ -77,8 +86,8 @@ struct HomeView: View {
         
         VStack{
             Carousal(CategoryName: "Airing Today", Listing: self.HomeVM.airingToday)
-            CategoryList(CategoryName: "Top Rated", Listing: self.HomeVM.topRatedTV)
-            CategoryList(CategoryName: "Popular", Listing: self.HomeVM.popularTV)
+            CategoryList(CategoryName: "Top Rated", Listing: self.HomeVM.topRatedTV, toastMessage: self.$toastMessage, showToast: self.$showToast)
+            CategoryList(CategoryName: "Popular", Listing: self.HomeVM.popularTV, toastMessage: self.$toastMessage, showToast: self.$showToast)
         }
     }
 }
@@ -125,17 +134,9 @@ struct CategoryList: View{
     
     var CategoryName: String
     var Listing: [Movie]
-    @State var toastMessage:String = ""
-    @State var showToast:Bool = false
+    @Binding var toastMessage:String
+    @Binding var showToast:Bool
     @State var bookmarks: [Bool] = Array(repeating: false, count: 500)
-    
-    init(CategoryName: String, Listing: [Movie]) {
-        self.CategoryName = CategoryName
-        self.Listing = Listing
-        for index in Listing.indices {
-            self.bookmarks[index] = (DefaultsStorage.get(key: Listing[index].movieID) != nil)
-        }
-    }
     
     var body: some View {
         VStack(alignment: .leading){
@@ -145,10 +146,11 @@ struct CategoryList: View{
                     ForEach(Listing.indices, id:\.self){ index in
                         NavigationLink(destination: DetailsView(DetailsVM: DetailVM(movieID: Listing[index].movieID, isMovie:Listing[index].isMovie, movieTMDBLink: Listing[index].TMDBLink))){
                             VStack(){
-                                KFImage(URL(string: Listing[index].imgURL))
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .clipped()
+                                RemoteImage(url: Listing[index].imgURL)
+                                    //.resizable()
+                                    .aspectRatio(contentMode: .fit)
+//                                    .aspectRatio(contentMode: .fill)
+//                                    .clipped()
                                     .frame(width: 100, height: 150)
                                     .cornerRadius(10)
                                 Text(Listing[index].title)
@@ -190,16 +192,14 @@ struct CategoryList: View{
                                 if bookmarks[index] {
                                     DefaultsStorage.remove(key: movie.movieID)
                                     self.toastMessage = "Removing \(movie.title) from Watchlist"
-                                    print("remove because bookmarked")
-                                    bookmarks[index].toggle()
+                                    bookmarks[index] = false
                                     self.showToast=true
                                 } else {
                                     DefaultsStorage.store(key: movie.movieID, movie: MovieTV(
                                                             id: (movie.movieID as NSString).integerValue,
                                                             movieID: movie.movieID, title: movie.title, imgURL: movie.imgURL, isMovie: movie.isMovie, TMDBLink: movie.TMDBLink))
                                     self.toastMessage = "Adding \(movie.title) to Watchlist"
-                                    print("add because not bookmarked")
-                                    bookmarks[index].toggle()
+                                    bookmarks[index] = true
                                     self.showToast=true
                                 }
                                 
