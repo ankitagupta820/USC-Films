@@ -93,15 +93,14 @@ class DetailVM: ObservableObject {
     func fetchRecommenedMovies(){
         var url : String=""
        // let movieID=278
+        var count: Int = 0
         if(isMovie){
             url = host+"movies/recommended?movieId="+self.movieID
         }
         else{
             url = host+"tv-series/recommended?tvId="+self.movieID
         }
-      //  url="http://10.25.152.245:4001/movies/recommended?movieId=278"
         
-        //debugPrint(url)
         AF.request(url, encoding:JSONEncoding.default).responseJSON{ response in
             switch response.result{
             case .success(let value):
@@ -110,19 +109,22 @@ class DetailVM: ObservableObject {
                 //print("Data ",data)
                 var recoMovies: [RecommendedMovieData] = []
                 for item in data.arrayValue {
-                    let recoMovieObj = RecommendedMovieData(
-                       // reviewTitle: item[""],
-                        moviePoster: item["imageURL"].stringValue,
-                        movieName: item["title"].stringValue,
-                        movieYear: String(item["releaseDate"].stringValue.prefix(4)),
-                        movieID: item["id"].stringValue,
-                        isMovie: self.isMovie,
-                        TMDBLink: item["TMDBLink"].stringValue
-                        
-                       
-                    )
+                    if(count<10){
+                        let recoMovieObj = RecommendedMovieData(
+                           // reviewTitle: item[""],
+                            moviePoster: item["imageURL"].stringValue,
+                            movieName: item["title"].stringValue,
+                            movieYear: String(item["releaseDate"].stringValue.prefix(4)),
+                            movieID: item["id"].stringValue,
+                            isMovie: self.isMovie,
+                            TMDBLink: item["TMDBLink"].stringValue
+                            
+                           
+                        )
 
-                    recoMovies.append(recoMovieObj)
+                        recoMovies.append(recoMovieObj)
+                        count+=1
+                    }
                 }
                 self.recommendedMovies=recoMovies
                 debugPrint("Recos fetched")
@@ -137,15 +139,13 @@ class DetailVM: ObservableObject {
     }
     func fetchReviews(){
         var url : String=""
-       // let movieID=278
         if(isMovie){
             url = host+"movies/reviews?movieId="+self.movieID
         }
         else{
             url = host+"tv-series/reviews?tvId="+self.movieID
         }
-      //  url="http://10.25.152.245:4001/movies/reviews?movieId=278"
-    //    debugPrint(url)
+
         AF.request(url, encoding:JSONEncoding.default).responseJSON{ response in
             switch response.result{
             case .success(let value):
@@ -154,15 +154,10 @@ class DetailVM: ObservableObject {
                 var count=0
                 
                 var reviews: [ReviewCard] = []
-              //  debugPrint("Size of reviews ",data.arrayValue.count)
                 for item in data.arrayValue {
                     if(count<3){
-                       // let attributedString = self.decodeString(encodedString: item["content"].stringValue)
-                        //let message = attributedString?.string
-                        //debugPrint("Message ",message)
+
                         let reviewObj = ReviewCard(
-                           // reviewTitle: item[""],
-                           
                             rating: item["author_details"]["rating"].floatValue,
                             reviewAuth: item["author_details"]["username"].stringValue,
                             reviewDate: item["created_at"].stringValue,
@@ -171,10 +166,6 @@ class DetailVM: ObservableObject {
                            
                         )
                             count+=1
-                        
-    //                        actorPic: <#T##String#>: item["title"].stringValue,
-    //                        year: self.formatDate(date: item["releaseDate"].stringValue),
-    //                        imgURL: item["imageURL"].stringValue)
                         reviews.append(reviewObj)
                     }
                 }
@@ -188,9 +179,7 @@ class DetailVM: ObservableObject {
             }
             
         }
-        
-        //reviewTitle: "Amazing Superhero Movie", rating: 5, reviewAuth: "DorothyZ", reviewDate: "2021/03/14", reviewText:"This is a treat to all DC fans. Spellbinding graphics, gripping storyline, wonderful performances."
-        
+
     }
     func fetchCastMembers(){
         var url : String=""
@@ -218,15 +207,12 @@ class DetailVM: ObservableObject {
                             actorName: item["name"].stringValue,
                             actorPic: item["imageURL"].stringValue
                         )
-    //                        actorPic: <#T##String#>: item["title"].stringValue,
-    //                        year: self.formatDate(date: item["releaseDate"].stringValue),
-    //                        imgURL: item["imageURL"].stringValue)
+
                         castMembers.append(castObj)
                         count+=1
                     }
                 }
                 self.castMemberData=castMembers
-              //  debugPrint("Cast fetched ",self.castMemberData.count)
                 self.isLoadedArray[1] = true
                 self.isLoaded = self.checkIsLoaded()
             case .failure(let error):
@@ -245,8 +231,6 @@ class DetailVM: ObservableObject {
         else{
             url = host+"tv-series/details?tvId="+self.movieID
         }
-        //url="http://10.25.152.245:4001/movies/details?movieId=278"
-        debugPrint("MovieID ",self.movieID)
 
         AF.request(url, encoding:JSONEncoding.default).responseJSON { response in
             switch response.result{
@@ -278,9 +262,7 @@ class DetailVM: ObservableObject {
                 print("MovieTVShow Rating" + String(self.movieTVShowRating))
                 
                 self.movieTVShowTrailer = data["video_details"]["video_id"].stringValue
-//                if(self.movieTVShowTrailer=="tzkWB85ULJY"){
-//                    self.movieTVShowTrailer="eERe0-E4Zpg"
-//                }
+
                 self.imgURL = data["imageURL"].stringValue
                 print("image url: " + self.imgURL)
                 self.isLoadedArray[0] = true
@@ -297,11 +279,11 @@ class DetailVM: ObservableObject {
     //function to convert html to plain text
     func decodeString(encodedString:String) -> NSAttributedString?
     {
-        //[NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding], documentAttributes: nil)
+
         let encodedData = encodedString.data(using: String.Encoding.utf8)!
         do {
            return try NSAttributedString(data: encodedData, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
-           // return try NSAttributedString(data: encodedData, )//, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding], documentAttributes: nil)
+          
         } catch let error as NSError {
             print(error.localizedDescription)
             return nil

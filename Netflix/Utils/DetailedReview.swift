@@ -35,6 +35,8 @@ struct DetailedReview: View {
                     }
            
             }
+            .padding(.leading)
+            .padding(.trailing)
           
         
         
