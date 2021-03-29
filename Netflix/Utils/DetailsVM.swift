@@ -278,9 +278,9 @@ class DetailVM: ObservableObject {
                 print("MovieTVShow Rating" + String(self.movieTVShowRating))
                 
                 self.movieTVShowTrailer = data["video_details"]["video_id"].stringValue
-                if(self.movieTVShowTrailer=="tzkWB85ULJY"){
-                    self.movieTVShowTrailer="eERe0-E4Zpg"
-                }
+//                if(self.movieTVShowTrailer=="tzkWB85ULJY"){
+//                    self.movieTVShowTrailer="eERe0-E4Zpg"
+//                }
                 self.imgURL = data["imageURL"].stringValue
                 print("image url: " + self.imgURL)
                 self.isLoadedArray[0] = true

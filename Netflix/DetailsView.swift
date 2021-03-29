@@ -103,11 +103,13 @@ struct DetailsView: View {
 
                     }
                 }
+            let trimmed_videoID=self.DetailsVM.movieTVShowTrailer.trimmingCharacters(in: .whitespacesAndNewlines)
+            if(trimmed_videoID != "tzkWB85ULJY"){
 
             player(videoID:NSMutableAttributedString(string: DetailsVM.movieTVShowTrailer)).frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 200)
                 .padding(.leading)
                 .padding(.trailing)
-         
+            }
             ScrollView{
                 LazyVStack{
                     VStack(alignment: .leading){
