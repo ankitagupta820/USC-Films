@@ -256,13 +256,13 @@ struct DetailsView: View {
         if self.isBookMarked {
             DefaultsStorage.remove(key: self.DetailsVM.movieID)
             self.isBookMarked = false
-            self.toastMessage = "Removing \(self.DetailsVM.movieTVShowName) from Watchlist"
+            self.toastMessage = "\(self.DetailsVM.movieTVShowName) was removed from Watchlist"
         } else {
             DefaultsStorage.store(key: self.DetailsVM.movieID, movie: MovieTV(
                                     id: (self.DetailsVM.movieID as NSString).integerValue,
                                     movieID: self.DetailsVM.movieID, title: self.DetailsVM.movieTVShowName, imgURL: self.DetailsVM.imgURL, isMovie: self.DetailsVM.isMovie, TMDBLink: self.DetailsVM.movieTMDBLink))
             self.isBookMarked = true
-            self.toastMessage = "Adding \(self.DetailsVM.movieTVShowName) to Watchlist"
+            self.toastMessage = "\(self.DetailsVM.movieTVShowName) was added to Watchlist"
         }
         self.showToast=true
     }

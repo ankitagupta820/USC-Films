@@ -114,7 +114,7 @@ class DetailVM: ObservableObject {
                            // reviewTitle: item[""],
                             moviePoster: item["imageURL"].stringValue,
                             movieName: item["title"].stringValue,
-                            movieYear: String(item["releaseDate"].stringValue.prefix(4)),
+                            movieYear: self.formatDate(date: item["releaseDate"].stringValue),
                             movieID: item["id"].stringValue,
                             isMovie: self.isMovie,
                             TMDBLink: item["TMDBLink"].stringValue
@@ -241,12 +241,10 @@ class DetailVM: ObservableObject {
                 
                 self.movieTVShowName = data["title"].stringValue
                 if(self.isMovie){
-                    let movieDate = data["release_date"].stringValue.components(separatedBy: "-")
-                    self.movieTVShowYear = movieDate[0]
+                    self.movieTVShowYear = self.formatDate(date: data["release_date"].stringValue)
                 }
                 else{
-                    let tvShowDate = data["first_air_date"].stringValue.components(separatedBy: "-")
-                    self.movieTVShowYear = tvShowDate[0]
+                    self.movieTVShowYear = self.formatDate(date: data["first_air_date"].stringValue)
                 }
                 var genre = ""
                 for g_item in data["genres"].arrayValue {
@@ -272,6 +270,16 @@ class DetailVM: ObservableObject {
                 print(error)
             }
         }
+    }
+    
+    func formatDate(date: String)-> String{
+        
+        let dateComponets =  date.split(separator: "-")
+        if dateComponets.count == 0 {
+            return "Not Available"
+        }
+        return String(dateComponets[0])
+        
     }
     
     

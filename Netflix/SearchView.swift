@@ -21,8 +21,11 @@ struct SearchView: View {
             if (searchText.count >= 3 && searchVM.searchResult.count == 0 && searchVM.isLoaded){
                     VStack {
                         Text("No Results")
-                            .font(.system(size: 32))
+                            .font(.system(size: 26))
+                            .foregroundColor(.gray)
+                        
                     }
+                    .padding()
                 }
                 Spacer()
             }

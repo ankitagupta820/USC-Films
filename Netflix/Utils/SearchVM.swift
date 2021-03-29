@@ -32,7 +32,7 @@ class SearchVM: ObservableObject {
                        // reviewTitle: item[""],
                         movieID: item["id"].stringValue,
                         title: item["title"].stringValue,
-                        year: String(item["releaseDate"].stringValue.split(separator: "-")[0]),
+                        year: self.formatDate(date: item["releaseDate"].stringValue),
                         imgURL: item["imageURL"].stringValue,
                         TMDBLink: item["TMDBLink"].stringValue,
                         isMovie: item["mediaType"].stringValue == "movie",
@@ -48,5 +48,15 @@ class SearchVM: ObservableObject {
                 print(error)
             }
         }
+    }
+    
+    func formatDate(date: String)-> String{
+        
+        let dateComponets =  date.split(separator: "-")
+        if dateComponets.count == 0 {
+            return "Not Available"
+        }
+        return String(dateComponets[0])
+        
     }
 }

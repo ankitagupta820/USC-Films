@@ -197,14 +197,14 @@ struct CategoryList: View{
                                 let movie = Listing[index]
                                 if bookmarks[index] {
                                     DefaultsStorage.remove(key: movie.movieID)
-                                    self.toastMessage = "Removing \(movie.title) from Watchlist"
+                                    self.toastMessage = "\(movie.title) was removed from Watchlist"
                                     bookmarks[index] = false
                                     self.showToast=true
                                 } else {
                                     DefaultsStorage.store(key: movie.movieID, movie: MovieTV(
                                                             id: (movie.movieID as NSString).integerValue,
                                                             movieID: movie.movieID, title: movie.title, imgURL: movie.imgURL, isMovie: movie.isMovie, TMDBLink: movie.TMDBLink))
-                                    self.toastMessage = "Adding \(movie.title) to Watchlist"
+                                    self.toastMessage = "\(movie.title) was added to Watchlist"
                                     bookmarks[index] = true
                                     self.showToast=true
                                 }

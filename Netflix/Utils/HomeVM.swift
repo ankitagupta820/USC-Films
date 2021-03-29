@@ -250,6 +250,9 @@ class HomeVM: ObservableObject{
     func formatDate(date: String)-> String{
         
         let dateComponets =  date.split(separator: "-")
+        if dateComponets.count == 0 {
+            return "Not Available"
+        }
         return String(dateComponets[0])
         
     }

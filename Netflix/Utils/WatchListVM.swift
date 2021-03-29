@@ -12,8 +12,12 @@ class WatchListVM: ObservableObject, Identifiable {
     
     init() {
         watchList = []
+        self.refresh()
     }
     
+    func refresh() {
+        watchList = DefaultsStorage.getMoviesList()
+    }
 }
 
 struct MovieTV: Identifiable, Encodable, Decodable{
