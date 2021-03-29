@@ -72,9 +72,10 @@ struct HomeView: View {
                         }
                     }
                 }
+                .padding()
                 
-            }.padding()
-            .navigationViewStyle(StackNavigationViewStyle())
+            }
+            .navigationViewStyle(StackNavigationViewStyle()) //for back button in nested detailedview screen
         }
     }
     

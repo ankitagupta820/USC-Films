@@ -60,7 +60,8 @@ struct LongText: View {
         Button(action: { self.expanded.toggle() }) {
             Text(self.expanded ? "Show less" : "Show more")
                 .font(.body)
-                .foregroundColor(Color.red)
+                .fontWeight(.semibold)
+                .foregroundColor(.secondary)
                
         }
     }

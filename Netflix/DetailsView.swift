@@ -17,7 +17,7 @@ struct DetailsView: View {
     @State var isBookMarked: Bool = false
     @State var toastMessage:String = ""
     @State var showToast:Bool = false
-    @State var videoId = NSMutableAttributedString(string: "QGnXv7vJkJY")
+    @State var videoId = NSMutableAttributedString(string: "qxKqMJxw6vc")
     @State var averageStarRating: Float = 4.5
     @ObservedObject var DetailsVM: DetailVM
     @Environment(\.openURL) var openURL
@@ -56,8 +56,17 @@ struct DetailsView: View {
                             Button(action:{
                                 self.onBookmark()
                             }){
-                                Image(systemName: self.isBookMarked == true ? "plus.circle.fill" : "plus.circle")
-                                    
+                                if(self.isBookMarked==true){
+                                    Image(systemName: "bookmark.fill")
+                                        .renderingMode(.template)
+                                        .foregroundColor(Color.blue)
+                                }
+                                else{
+                                    Image(systemName: "bookmark")
+                                        .renderingMode(.original)
+                                        
+                                }
+                               
                             }
 
                             let source: String = String(DetailsVM.movieTMDBLink)
@@ -69,7 +78,7 @@ struct DetailsView: View {
                                 debugPrint("FB uRL ",fbUrl)
                                openURL(fbUrl)
                             }){
-                                Image("facebook_orig")
+                                Image("Facebook")
                                     .resizable()
                                     .foregroundColor(Color.blue)
                                     .frame(width:20,height:20)
@@ -83,7 +92,7 @@ struct DetailsView: View {
                                 debugPrint("Twitter uRL ",twitterUrl)
                                 openURL(twitterUrl)
                             }){
-                                Image("Twitter_orig")
+                                Image("Twitter")
                                     .resizable()
                                     .foregroundColor(Color.blue)
                                     .frame(width:20,height:20)
@@ -96,6 +105,8 @@ struct DetailsView: View {
                 }
 
             player(videoID:NSMutableAttributedString(string: DetailsVM.movieTVShowTrailer)).frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 200)
+                .padding(.leading)
+                .padding(.trailing)
          
             ScrollView{
                 LazyVStack{
@@ -138,42 +149,48 @@ struct DetailsView: View {
                 Text("Cast & Crew").font(.system(size: 25.0, design:.rounded)).fontWeight(.bold)
                  //   .padding(.leading,20)
                     .padding(.top,7)
-                ScrollView{
-                    LazyVGrid(columns:layout, spacing:10){
-                        ForEach(DetailsVM.castMemberData, id: \.self){ cast in
-                            VStack{
-                                RemoteImage(url: cast.actorPic)
-                                    //.resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .clipShape(Circle())
-                                    .shadow(radius: 1)
-                                    .overlay(Circle().stroke(Color.white, lineWidth: 1))
-        //                                    .border(Color.white)
-                                    .frame(width:90, height:110)
-                                    
+                    
+                    ScrollView(.horizontal, showsIndicators:false){
+                        HStack{
+                            ForEach(DetailsVM.castMemberData, id: \.self){ cast in
 
-                                Text(cast.actorName)
-                                    .font(.subheadline)
+                                VStack{
+                                    RemoteImage(url: cast.actorPic)
+                                        //.resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .clipShape(Circle())
+                                        .shadow(radius: 1)
+                                        .overlay(Circle().stroke(Color.white, lineWidth: 1))
+            //                                    .border(Color.white)
+                                        .frame(width:90, height:110)
+    
+    
+                                    Text(cast.actorName)
+    
+                                        .font(.caption)
+                                      //  .fontWeight(.heavy)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .multilineTextAlignment(.center)
+                                }
+                                   
                             }
                         }
                     }
-             //       .frame(width:.infinity, height: 350)
-                    //set height here
-                }
+
 
             } //ScrollView for Cast & Crew
             
             //Reviews List
                 if(DetailsVM.reviews.count>0){
                     Text("Reviews").font(.system(size: 25.0, design:.rounded)).fontWeight(.bold)
-                        .padding(.bottom,5)
-                        .padding(.top,7)
+//                        .padding(.bottom,5)
+//                        .padding(.top,7)
                     
                     ForEach(0..<DetailsVM.reviews.count){ index in
                         NavigationLink(destination: DetailedReview(reviewCard:DetailsVM.reviews[index], movieName: self.DetailsVM.movieTVShowName)){
                             
                             CardView(reviewCard:DetailsVM.reviews[index])
-                                .padding(.bottom,10)
+                             //   .padding(.bottom,10)
                         }
                     }
                 }
@@ -214,6 +231,8 @@ struct DetailsView: View {
             }
         } //ScrollView ends
         //}
+            .padding(.leading)
+            .padding(.trailing)
             .toast(isPresented: self.$showToast) {
                 HStack {
                     Text(self.toastMessage)
