@@ -56,7 +56,7 @@ struct DetailsView: View {
                         Button(action:{
                             self.onBookmark()
                         }){
-                            if(self.isBookMarked==true){
+                            if(self.isBookMarked){
                                 Image(systemName: "bookmark.fill")
                                     .renderingMode(.template)
                                     .foregroundColor(Color.blue)

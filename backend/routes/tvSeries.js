@@ -151,7 +151,7 @@ router.get('/details', function (req, res) {
                     let video_details = processTvSeriesVideoResult(video_resp.data.results);
                     resp.data.title = resp.data.name;
                     resp.data['releaseDate'] = resp.data["first_air_date"];
-                    resp.data.imageURL = resp.data['poster_path'];
+                    resp.data.imageURL = "https://image.tmdb.org/t/p/w500" + resp.data['poster_path'];
                     resp.data.video_details = video_details;
 
                     // overriding genres and spoken_languages in existing API
@@ -353,13 +353,13 @@ router.get('/latest', function (req, res) {
                         resp.data['releaseDate'] = resp.data["first_air_date"];
                         resp.data.imageURL = "https://image.tmdb.org/t/p/w500/" + resp.data['poster_path'];
                         resp.data.video_details = video_details;
-    
+
                         resp.data['voteAverage'] = resp.data['vote_average'];
                         resp.data['category'] = 'tv';
                         // overriding genres and spoken_languages in existing API
                         resp.data.genres = genres_arr_list;
                         resp.data.spoken_languages = spoken_languages_arr_list
-    
+
                         // Added run_time key in existing API
                         let formatted_time = ""
                         if ("episode_run_time" in resp.data && resp.data["episode_run_time"].length !== 0) {
@@ -368,7 +368,7 @@ router.get('/latest', function (req, res) {
                             if (time_str%60 !== 0) formatted_time += time_str % 60 + "mins";
                         }
                         resp.data.runtime = formatted_time;
-    
+
                         console.log(resp.data);
                         res.json({status: "OK", data: resp.data});
                     })
