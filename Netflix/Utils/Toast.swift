@@ -32,7 +32,7 @@ struct Toast<Presenting, Content>: View where Presenting: View, Content: View {
                     Capsule()
                         .fill(Color.gray)
 
-                    self.content().foregroundColor(Color.white)
+                    self.content().foregroundColor(Color.white).multilineTextAlignment(.center)
                 } //ZStack (inner)
                 .frame(width: geometry.size.width / 1.25, height: geometry.size.height / 10)
                 .opacity(self.isPresented ? 1 : 0)

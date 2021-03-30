@@ -8,10 +8,8 @@ import SwiftUI
 import Foundation
 import youtube_ios_player_helper
 import AVKit
-//import Kingfisher
 
 
-//load this page only when data is fetched
 struct DetailsView: View {
     
     @State var isBookMarked: Bool = false
@@ -29,29 +27,126 @@ struct DetailsView: View {
                     self.DetailsVM.fetchDetailPageData()
                 }
         } else {
-            let layout=[
-                GridItem(.flexible()),
-                GridItem(.flexible()),
-                GridItem(.flexible())
-                
-            ]
-            let rows = [
-                GridItem(.flexible()), //spacing; between rows
-                GridItem(.flexible()),
-                GridItem(.flexible()),
-                GridItem(.flexible()),
-                GridItem(.flexible()),
-                GridItem(.flexible())
-            ]
             
-            //VStack{
-            VStack{
+            ScrollView{
                 
-            }
-            .navigationBarTitle("")
-            
-            .toolbar{
-                ToolbarItem(){
+                //Trailer Player
+                let trimmed_videoID=self.DetailsVM.movieTVShowTrailer.trimmingCharacters(in: .whitespacesAndNewlines)
+                if(trimmed_videoID != "tzkWB85ULJY"){
+                    VStack{
+                        player(videoID:NSMutableAttributedString(string: DetailsVM.movieTVShowTrailer))
+                            .frame(height: 200)
+                    }
+                }
+                
+                //generic Summary
+                VStack(alignment: .leading){
+                    //Name
+                    Text(DetailsVM.movieTVShowName)
+                        .font(.title)
+                        .bold()
+                        .padding(.bottom,5)
+                    
+                    //Year,Genre
+                    HStack{
+                        Text(DetailsVM.movieTVShowYear+" | "+DetailsVM.movieTVShowGenre)
+                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
+                        Spacer()
+                    }
+                    .padding(.bottom,5)
+                    
+                    //Average Rating
+                    HStack{
+                        Image(systemName: "star.fill").foregroundColor(Color.red)
+                        Text("\(String(format: "%.1f",(DetailsVM.movieTVShowRating/2)))/5.0")
+                        Spacer()
+                    }.padding(.bottom,5)
+                    
+                    //Description
+                    LongText(DetailsVM.movieTVShowDescription)
+                }
+                
+                //Cast & Crew
+                VStack(alignment: .leading){
+                    if(DetailsVM.castMemberData.count>0){
+                        Text("Cast & Crew")
+                            .font(.system(size: 25.0, design:.rounded))
+                            .fontWeight(.bold)
+                            .padding(.top,10)
+                        
+                        ScrollView(.horizontal, showsIndicators:false){
+                            HStack{
+                                ForEach(DetailsVM.castMemberData, id: \.self){ cast in
+                                    VStack{
+                                        RemoteImage(url: cast.actorPic)
+                                            .aspectRatio(contentMode: .fill)
+                                            .clipShape(Circle())
+                                            .shadow(radius: 1)
+                                            .overlay(Circle().stroke(Color.white, lineWidth: 1))
+                                            .frame(width:90, height:110)
+                                        
+                                        Text(cast.actorName)
+                                            .font(.caption)
+                                            .fixedSize(horizontal: false, vertical: true)
+                                            .multilineTextAlignment(.center)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                //Reviews List
+                VStack(alignment:.leading){
+                    if(DetailsVM.reviews.count>0){
+                        Text("Reviews")
+                            .font(.system(size: 25.0,design:.rounded))
+                            .fontWeight(.bold)
+                            .padding(.top,10)
+                        
+                        ForEach(0..<DetailsVM.reviews.count){ index in
+                            NavigationLink(destination: DetailedReview(reviewCard:DetailsVM.reviews[index], movieName: self.DetailsVM.movieTVShowName)){
+                                CardView(reviewCard:DetailsVM.reviews[index])
+                            }.buttonStyle(PlainButtonStyle())
+                        }
+                    }
+                }
+                
+                //Recommended Movies/Shows
+                VStack(alignment: .leading){
+                    if(DetailsVM.recommendedMovies.count>0){
+                        let title: String = DetailsVM.isMovie ? "Recommended Movies" : "Recommended Shows"
+                        Text(title)
+                            .font(.system(size: 25.0, design:.rounded))
+                            .fontWeight(.bold)
+                            .padding(.top,10)
+                        
+                        ScrollView(.horizontal, showsIndicators:false){
+                            HStack{
+                                ForEach(0..<DetailsVM.recommendedMovies.count){i in
+                                    
+                                    NavigationLink(destination: DetailsView(DetailsVM: DetailVM(movieID: DetailsVM.recommendedMovies[i].movieID, isMovie:DetailsVM.recommendedMovies[i].isMovie, movieTMDBLink: DetailsVM.recommendedMovies[i].TMDBLink))){
+                                        
+                                        RemoteImage(url: DetailsVM.recommendedMovies[i].moviePoster)
+                                            .aspectRatio(contentMode: .fill)
+                                            .clipped()
+                                            .frame(width: 100, height: 150)
+                                            .cornerRadius(10)
+                                            .padding(.leading)
+                                            .padding(.trailing)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                
+            } //ScrollView ends
+            .padding(.leading)
+            .padding(.trailing)
+            .navigationBarItems(
+                trailing:
                     HStack{
                         Button(action:{
                             self.onBookmark()
@@ -64,9 +159,7 @@ struct DetailsView: View {
                             else{
                                 Image(systemName: "bookmark")
                                     .renderingMode(.original)
-                                
                             }
-                            
                         }
                         
                         let source: String = String(DetailsVM.movieTMDBLink)
@@ -82,10 +175,9 @@ struct DetailsView: View {
                                 .resizable()
                                 .foregroundColor(Color.blue)
                                 .frame(width:20,height:20)
-                            
                         }
+                        
                         Button(action:{
-                            
                             let TwitterShareString = String("https://twitter.com/intent/tweet?text=Check out this link: &url=\(source)&hashtags=CSCI571NetflixApp")
                             let escapedShareString = TwitterShareString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
                             let twitterUrl: URL = URL(string: escapedShareString)!
@@ -96,149 +188,15 @@ struct DetailsView: View {
                                 .resizable()
                                 .foregroundColor(Color.blue)
                                 .frame(width:20,height:20)
-                            
                         }
-                        
                     }
-                    
-                }
-            }
-            let trimmed_videoID=self.DetailsVM.movieTVShowTrailer.trimmingCharacters(in: .whitespacesAndNewlines)
-            if(trimmed_videoID != "tzkWB85ULJY"){
                 
-                player(videoID:NSMutableAttributedString(string: DetailsVM.movieTVShowTrailer)).frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 200)
-                    .padding(.leading)
-                    .padding(.trailing)
-            }
-            ScrollView{
-                LazyVStack{
-                    VStack(alignment: .leading){
-                        
-                        
-                        Text(DetailsVM.movieTVShowName)
-                            .font(.title)
-                            .bold()
-                            .foregroundColor(Color.black)
-                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
-                            //   .padding(.leading, 20)
-                            .padding(.bottom,5)
-                        
-                        
-                        
-                        
-                        //Year,Genre
-                        HStack{
-                            Text(DetailsVM.movieTVShowYear+" | "+DetailsVM.movieTVShowGenre)
-                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
-                            
-                        }
-                        //  .padding(.leading,20)
-                        .padding(.bottom,5)
-                        //HStack
-                        
-                        //Average Rating
-                        (Text(Image(systemName: "star.fill")).foregroundColor(Color.red) + Text("\(String(format: "%.1f",DetailsVM.movieTVShowRating/2))/5.0"))
-                            .frame(minWidth:0, maxWidth: .infinity, alignment: .leading)
-                            //  .padding(.leading,20)
-                            .padding(.bottom,5)
-                        
-                        //Description
-                        LongText(DetailsVM.movieTVShowDescription)
-                            // .padding(.leading,20)
-                            .padding(.trailing,5)
-                        
-                        if(DetailsVM.castMemberData.count>0){
-                            Text("Cast & Crew").font(.system(size: 25.0, design:.rounded)).fontWeight(.bold)
-                                //   .padding(.leading,20)
-                                .padding(.top,7)
-                            
-                            ScrollView(.horizontal, showsIndicators:false){
-                                HStack{
-                                    ForEach(DetailsVM.castMemberData, id: \.self){ cast in
-                                        
-                                        VStack{
-                                            RemoteImage(url: cast.actorPic)
-                                                //.resizable()
-                                                .aspectRatio(contentMode: .fill)
-                                                .clipShape(Circle())
-                                                .shadow(radius: 1)
-                                                .overlay(Circle().stroke(Color.white, lineWidth: 1))
-                                                //                                    .border(Color.white)
-                                                .frame(width:90, height:110)
-                                            
-                                            
-                                            Text(cast.actorName)
-                                                
-                                                .font(.caption)
-                                                //  .fontWeight(.heavy)
-                                                .fixedSize(horizontal: false, vertical: true)
-                                                .multilineTextAlignment(.center)
-                                        }
-                                        
-                                    }
-                                }
-                            }
-                            
-                            
-                        } //ScrollView for Cast & Crew
-                        
-                        //Reviews List
-                        if(DetailsVM.reviews.count>0){
-                            Text("Reviews").font(.system(size: 25.0, design:.rounded)).fontWeight(.bold)
-                            //                        .padding(.bottom,5)
-                            //                        .padding(.top,7)
-                            
-                            ForEach(0..<DetailsVM.reviews.count){ index in
-                                NavigationLink(destination: DetailedReview(reviewCard:DetailsVM.reviews[index], movieName: self.DetailsVM.movieTVShowName)){
-                                    CardView(reviewCard:DetailsVM.reviews[index])
-                                }.buttonStyle(PlainButtonStyle())
-                            }
-                        }
-                        
-                        if(DetailsVM.recommendedMovies.count>0){
-                            //Recommended Movies
-                            if(DetailsVM.isMovie){
-                                Text("Recommended Movies").font(.system(size: 25.0, design:.rounded)).fontWeight(.bold)
-                                    .padding(.top,7)
-                            }
-                            else{
-                                Text("Recommended Movies").font(.system(size: 25.0, design:.rounded)).fontWeight(.bold)
-                                    .padding(.top,7)
-                                //     .padding(.leading,20)
-                            }
-                            ScrollView(.horizontal, showsIndicators:false){
-                                HStack{
-                                    ForEach(0..<DetailsVM.recommendedMovies.count){i in
-                                        
-                                        NavigationLink(destination: DetailsView(DetailsVM: DetailVM(movieID: DetailsVM.recommendedMovies[i].movieID, isMovie:DetailsVM.recommendedMovies[i].isMovie, movieTMDBLink: DetailsVM.recommendedMovies[i].TMDBLink))){
-                                            
-                                            
-                                            RemoteImage(url: DetailsVM.recommendedMovies[i].moviePoster)
-                                                // .resizable()
-                                                .aspectRatio(contentMode: .fill)
-                                                .clipped()
-                                                .frame(width: 100, height: 150)
-                                                .cornerRadius(10)
-                                                .padding()
-                                            
-                                        }
-                                    }
-                                }
-                            } //Scrollview Recommended movies
-                        }
-                    }
-                    
-                }
-            } //ScrollView ends
-            //}
-            .padding(.leading)
-            .padding(.trailing)
+            )
             .toast(isPresented: self.$showToast) {
                 HStack {
                     Text(self.toastMessage)
                 }
             }
-            
             .onAppear{
                 //self.DetailsVM.fetchDetailPageData()
                 if DefaultsStorage.get(key: self.DetailsVM.movieID) != nil {
@@ -247,8 +205,8 @@ struct DetailsView: View {
                     self.isBookMarked = false
                 }
             }
-        }
-    }// body ends
+        } //else
+    }
     
     func onBookmark(){
         if self.isBookMarked {
@@ -280,19 +238,21 @@ struct DetailsView: View {
     
 }
 
+//Loading Screen
 struct Loading: View {
     var body: some View {
         ProgressView("Fetching Data...").progressViewStyle(CircularProgressViewStyle())
     }
 }
 
+//Trailer Player
 struct player: UIViewRepresentable{
     var videoID:NSMutableAttributedString
+    
     //@Binding var parentView:View
     func makeUIView(context: Context) -> UIView {
         let otherPlayer=YTPlayerView()//.load(withVideoId: videoID, playerVars: ["playsinline":1])
         otherPlayer.load(withVideoId: videoID.string, playerVars: ["playsinline":1])
-        
         return otherPlayer
     }
     

@@ -42,7 +42,7 @@ struct LongText: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(self.text)
-                .font(.system(size: 16))
+                .font(.system(size: 15))
                 .lineLimit(self.expanded ? nil : 3)
                 .background(GeometryReader { geometry in
                     Color.clear.onAppear {
@@ -51,15 +51,19 @@ struct LongText: View {
                 })
 
             if self.truncated {
-                self.toggleButton
+                HStack{
+                    Spacer()
+                    self.toggleButton
+                }
+                
             }
         }
     }
 
     var toggleButton: some View {
         Button(action: { self.expanded.toggle() }) {
-            Text(self.expanded ? "Show less" : "Show more")
-                .font(.body)
+            Text(self.expanded ? "Show less" : "Show more..")
+                .font(.system(size: 15))
                 .fontWeight(.semibold)
                 .foregroundColor(.secondary)
                

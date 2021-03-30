@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "movie_creation-24px.svg",
+      "filename" : "baseline_movie_filter_black_48pt_1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "movie_creation-24px-1.svg",
+      "filename" : "baseline_movie_filter_black_48pt_2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "movie_creation-24px-2.svg",
+      "filename" : "baseline_movie_filter_black_48pt_3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

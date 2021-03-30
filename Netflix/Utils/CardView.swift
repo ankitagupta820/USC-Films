@@ -30,7 +30,7 @@ struct CardView: View {
                 }.padding(.bottom,1)
                 
                 Text(reviewCard.reviewText)
-                    .font(.body)
+                    .font(.system(size: 15))
                     .lineLimit(3)
                     .multilineTextAlignment(.leading)
             }

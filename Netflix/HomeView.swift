@@ -13,11 +13,7 @@ struct HomeView: View {
     @State var typeToggle: Bool = true
     @State var toastMessage:String = ""
     @State var showToast:Bool = false
-    
-    // if (!HomeVM.isLoaded) {
-    //   show a spinner
-    //}
-    
+        
     var body: some View {
         if !HomeVM.isLoaded {
             Loading()
@@ -31,13 +27,15 @@ struct HomeView: View {
                             TVShowsListing
                         }
                     }
+                    Text("Powered by TMDB").foregroundColor(.secondary).font(.caption)
+                    Text("Developed by Ankita, Akansha, Rucha, Yifan").foregroundColor(.secondary).font(.caption)
                 }
                 .toast(isPresented: self.$showToast) {
                     HStack {
                         Text(self.toastMessage)
                     }
                 }
-                .navigationBarTitle("Netflix")
+                .navigationTitle("USC Films")
                 .toolbar {
                     ToolbarItem() {
                         Button{
@@ -47,9 +45,9 @@ struct HomeView: View {
                         }
                     }
                 }
-                .padding()
+                .padding(.leading)
+                .padding(.trailing)
             }
-            .navigationViewStyle(StackNavigationViewStyle()) //for back button in nested detailedview screen
         }
     }
     
@@ -151,8 +149,7 @@ struct CategoryList: View{
                         .background(Color.white)
                         .contentShape(RoundedRectangle(cornerRadius: 10))
                         .contextMenu(menuItems: {
-                            let source: String = String(Listing[index].TMDBLink)//movie.imgURL
-                           // debugPrint("Soruce ",source)
+                            let source: String = String(Listing[index].TMDBLink)
                            
                             //Twitter
                             let TwitterShareString = String("https://twitter.com/intent/tweet?text=Check out this link: &url=\(source)&hashtags=CSCI571NetflixApp")
@@ -163,9 +160,6 @@ struct CategoryList: View{
                             let FacebookShareString = String("https://www.facebook.com/sharer/sharer.php?u="+source)
                             let escapedFacebook = FacebookShareString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
                             let fbUrl: URL = URL(string:escapedFacebook)!
-                            
-                            //Youtube Link
-                            //let YoutubeShareUrl: URL = URL(string: source)?
                             
                             Button {
                                 let movie = Listing[index]
@@ -182,8 +176,6 @@ struct CategoryList: View{
                                     bookmarks[index] = true
                                     self.showToast=true
                                 }
-                                
-                                
                             } label: {
                                 if (bookmarks[index]) {
                                     Label("Remove from watchList", systemImage:"bookmark.fill")
@@ -192,7 +184,6 @@ struct CategoryList: View{
                                 }
                             }
                             
-                          //  Link(destination: YoutubeShareUrl, label: {Label("Watch Trailer", systemImage: "film")})
                             Link(destination: fbUrl, label: {Label("Share on Facebook", image: "Facebook")})
                             Link(destination: twitterUrl, label: {Label("Share on Twitter", image: "Twitter")})
                             
