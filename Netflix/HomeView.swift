@@ -6,31 +6,6 @@
 //  Created by Ankita Gupta on 12/03/21.
 //
 import SwiftUI
-//import Kingfisher
-
-struct SplashScreenView: View{
-    
-    @State var endSplash = false
-   
-    var body: some View{
-        HomeView(HomeVM: HomeVM())
-        VStack{
-//        Text("Hello, world!")
-//            .padding()
-        }
-        .onAppear(perform: animateSplash)
-        .opacity(endSplash ? 0 : 1)
-    }
-    
-    func animateSplash(){
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25){
-            withAnimation(Animation.easeOut(duration: 0.50)){
-                endSplash.toggle()
-            }
-        }
-    }
-    
-}
 
 struct HomeView: View {
     
@@ -73,7 +48,6 @@ struct HomeView: View {
                     }
                 }
                 .padding()
-                
             }
             .navigationViewStyle(StackNavigationViewStyle()) //for back button in nested detailedview screen
         }
@@ -91,7 +65,7 @@ struct HomeView: View {
     var TVShowsListing: some View{
         
         VStack{
-            Carousal(CategoryName: "Airing Today", Listing: self.HomeVM.airingToday)
+            Carousal(CategoryName: "Trending", Listing: self.HomeVM.airingToday)
             CategoryList(CategoryName: "Top Rated", Listing: self.HomeVM.topRatedTV, toastMessage: self.$toastMessage, showToast: self.$showToast)
             CategoryList(CategoryName: "Popular", Listing: self.HomeVM.popularTV, toastMessage: self.$toastMessage, showToast: self.$showToast)
         }
@@ -235,15 +209,5 @@ struct CategoryList: View{
             }
         }
     }
-    
-    
-    
-    
-}
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        SplashScreenView()
-        //HomeView(HomeVM: HomeVM())
-    }
 }

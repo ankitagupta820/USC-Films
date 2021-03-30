@@ -91,7 +91,7 @@ class HomeVM: ObservableObject{
         }
         
         //TV
-        let urlTV: String = host+"tv-series/airing_today"
+        let urlTV: String = host+"tv-series/trending"
         AF.request(urlTV, encoding:JSONEncoding.default).responseJSON { response in
             switch response.result{
             case .success(let value):
@@ -112,7 +112,7 @@ class HomeVM: ObservableObject{
                 self.airingToday=MoviesArray
                 self.isLoadedArray[1] = true
                 self.isLoaded = self.checkIsLoaded()
-                debugPrint("Airing today fetched!")
+                debugPrint("Trending fetched!")
                 
             case .failure(let error):
                 print(error)
