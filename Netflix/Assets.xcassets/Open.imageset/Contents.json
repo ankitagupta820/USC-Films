@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Twitter_orig.png",
+      "filename" : "Open.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "Open-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "Open-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

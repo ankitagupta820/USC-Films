@@ -202,7 +202,7 @@ class DetailVM: ObservableObject {
                 var castMembers: [CastHashableArray] = []
                 
                 for item in data.arrayValue {
-                    if(count<6){
+                    if(count<10){
                         let castObj = CastHashableArray(
                             actorName: item["name"].stringValue,
                             actorPic: item["imageURL"].stringValue
@@ -241,10 +241,22 @@ class DetailVM: ObservableObject {
                 
                 self.movieTVShowName = data["title"].stringValue
                 if(self.isMovie){
-                    self.movieTVShowYear = self.formatDate(date: data["release_date"].stringValue)
+                    
+                        self.movieTVShowYear = self.formatDate(date: data["release_date"].stringValue)
+                        let dateComponents =  data["release_date"].stringValue.split(separator: "-")
+                        if dateComponents.count == 0 {
+                            self.movieTVShowYear = "Not Available"
+                        }
                 }
                 else{
-                    self.movieTVShowYear = self.formatDate(date: data["first_air_date"].stringValue)
+                   
+                        self.movieTVShowYear = self.formatDate(date: data["first_air_date"].stringValue)
+                        let dateComponents =  data["first_air_date"].stringValue.split(separator: "-")
+                        if dateComponents.count == 0 {
+                            self.movieTVShowYear = "Not Available"
+                        }
+
+                    
                 }
                 var genre = ""
                 for g_item in data["genres"].arrayValue {

@@ -178,7 +178,7 @@ struct DetailsView: View {
                         }
                         
                         Button(action:{
-                            let TwitterShareString = String("https://twitter.com/intent/tweet?text=Check out this link: &url=\(source)&hashtags=CSCI571NetflixApp")
+                            let TwitterShareString = String("https://twitter.com/intent/tweet?text=Check out this link: &url=\(source)&hashtags=CSCI571USCFilms")
                             let escapedShareString = TwitterShareString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
                             let twitterUrl: URL = URL(string: escapedShareString)!
                             debugPrint("Twitter uRL ",twitterUrl)
