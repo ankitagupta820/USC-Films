@@ -34,6 +34,7 @@ struct DetailedReview: View {
                         
                         Text(reviewCard.reviewText)
                             .font(.body)
+                            .fixedSize(horizontal: false, vertical: true)
                     
                     }
             }
@@ -43,6 +44,7 @@ struct DetailedReview: View {
     
     func changeDateFormat() -> String{
         //TODO: Change as per "2016-04-29T18:08:41.892Z
+        debugPrint("reviewCard",reviewCard.reviewText)
         let months: [String:String] = [
             "01": "Jan",
             "02": "Feb",

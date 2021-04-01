@@ -9,10 +9,11 @@ import SwiftUI
 
 struct CardView: View {
     let reviewCard: ReviewCard
+   
     let formatterStringDate = DateFormatter()
     
     var body: some View {
-        
+       
         HStack{
             VStack(alignment: .leading) {
                 Text("A review by "+reviewCard.reviewAuth)
@@ -44,6 +45,7 @@ struct CardView: View {
     
     
     func changeDateFormat() -> String{
+       
         //TODO: Change as per "2016-04-29T18:08:41.892Z
         let months: [String:String] = [
             "01": "Jan",
