@@ -13,6 +13,7 @@ struct HomeView: View {
     @State var typeToggle: Bool = true
     @State var toastMessage:String = ""
     @State var showToast:Bool = false
+    @Environment(\.openURL) var openURL
         
     var body: some View {
         if !HomeVM.isLoaded {
@@ -27,7 +28,10 @@ struct HomeView: View {
                             TVShowsListing
                         }
                     }
-                    Text("Powered by TMDB").foregroundColor(.secondary).font(.caption)
+                    Button("Powered by TMDB") {
+                        openURL(URL(string: "https://www.themoviedb.org/")!)
+                    }.foregroundColor(.secondary).font(.caption)
+                    //Text("Powered by TMDB").foregroundColor(.secondary)
                     Text("Developed by Ankita, Akansha, Rucha, Yifan").foregroundColor(.secondary).font(.caption)
                 }
                 .toast(isPresented: self.$showToast) {

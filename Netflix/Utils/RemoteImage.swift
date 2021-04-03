@@ -45,6 +45,7 @@ struct RemoteImage: View {
         if loader.state == LoadState.success {
             selectImage()
                 .resizable()
+                .renderingMode(.original)
         }
     }
 
@@ -67,7 +68,7 @@ struct RemoteImage: View {
 //                return failure
 //            }
 //        }
-        return Image(uiImage: UIImage(data: loader.data)!)
+        return Image(uiImage: UIImage(data: loader.data)!).renderingMode(.original)
     }
 }
 
