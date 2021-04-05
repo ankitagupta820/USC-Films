@@ -6,6 +6,7 @@
 //  Created by Ankita Gupta on 12/03/21.
 //
 import SwiftUI
+import Kingfisher
 
 struct HomeView: View {
     
@@ -130,9 +131,8 @@ struct CategoryList: View{
                             VStack(){
                                 RemoteImage(url: Listing[index].imgURL)
                                     //.resizable()
-                                    .aspectRatio(contentMode: .fit)
-//                                    .aspectRatio(contentMode: .fill)
-//                                    .clipped()
+                                    //.aspectRatio(contentMode: .fill)
+                                    .clipped()
                                     .frame(width: 100, height: 150)
                                     .cornerRadius(10)
                                 Text(Listing[index].title)
@@ -148,51 +148,50 @@ struct CategoryList: View{
                                     .multilineTextAlignment(.center)
                                 
                             }.frame(width: 100)
+                            .background(Color.white)
+                            .contentShape(RoundedRectangle(cornerRadius: 10))
+                            .contextMenu(menuItems: {
+                                let source: String = String(Listing[index].TMDBLink)
+                               
+                                //Twitter
+                                let TwitterShareString = String("https://twitter.com/intent/tweet?text=Check out this link: &url=\(source)&hashtags=CSCI571USCFilms")
+                                let escapedShareString = TwitterShareString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+                                let twitterUrl: URL = URL(string: escapedShareString)!
+                                
+                                //Facebook
+                                let FacebookShareString = String("https://www.facebook.com/sharer/sharer.php?u="+source)
+                                let escapedFacebook = FacebookShareString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+                                let fbUrl: URL = URL(string:escapedFacebook)!
+                                
+                                Button {
+                                    let movie = Listing[index]
+                                    if bookmarks[index] {
+                                        DefaultsStorage.remove(key: movie.movieID)
+                                        self.toastMessage = "\(movie.title) was removed from Watchlist"
+                                        bookmarks[index] = false
+                                        self.showToast=true
+                                    } else {
+                                        DefaultsStorage.store(key: movie.movieID, movie: MovieTV(
+                                                                id: (movie.movieID as NSString).integerValue,
+                                                                movieID: movie.movieID, title: movie.title, imgURL: movie.imgURL, isMovie: movie.isMovie, TMDBLink: movie.TMDBLink))
+                                        self.toastMessage = "\(movie.title) was added to Watchlist"
+                                        bookmarks[index] = true
+                                        self.showToast=true
+                                    }
+                                } label: {
+                                    if (bookmarks[index]) {
+                                        Label("Remove from watchList", systemImage:"bookmark.fill")
+                                    } else {
+                                        Label("Add to watchList", systemImage:"bookmark")
+                                    }
+                                }
+                                
+                                Link(destination: fbUrl, label: {Label("Share on Facebook", image: "Facebook")})
+                                Link(destination: twitterUrl, label: {Label("Share on Twitter", image: "Twitter")})
+                                
+                            })
                         }
                         .buttonStyle(PlainButtonStyle())
-                        .background(Color.white)
-                        .contentShape(RoundedRectangle(cornerRadius: 10))
-                        .contextMenu(menuItems: {
-                            let source: String = String(Listing[index].TMDBLink)
-                           
-                            //Twitter
-                            let TwitterShareString = String("https://twitter.com/intent/tweet?text=Check out this link: &url=\(source)&hashtags=CSCI571USCFilms")
-                            let escapedShareString = TwitterShareString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-                            let twitterUrl: URL = URL(string: escapedShareString)!
-                            
-                            //Facebook
-                            let FacebookShareString = String("https://www.facebook.com/sharer/sharer.php?u="+source)
-                            let escapedFacebook = FacebookShareString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-                            let fbUrl: URL = URL(string:escapedFacebook)!
-                            
-                            Button {
-                                let movie = Listing[index]
-                                if bookmarks[index] {
-                                    DefaultsStorage.remove(key: movie.movieID)
-                                    self.toastMessage = "\(movie.title) was removed from Watchlist"
-                                    bookmarks[index] = false
-                                    self.showToast=true
-                                } else {
-                                    DefaultsStorage.store(key: movie.movieID, movie: MovieTV(
-                                                            id: (movie.movieID as NSString).integerValue,
-                                                            movieID: movie.movieID, title: movie.title, imgURL: movie.imgURL, isMovie: movie.isMovie, TMDBLink: movie.TMDBLink))
-                                    self.toastMessage = "\(movie.title) was added to Watchlist"
-                                    bookmarks[index] = true
-                                    self.showToast=true
-                                }
-                            } label: {
-                                if (bookmarks[index]) {
-                                    Label("Remove from watchList", systemImage:"bookmark.fill")
-                                } else {
-                                    Label("Add to watchList", systemImage:"bookmark")
-                                }
-                            }
-                            
-                            Link(destination: fbUrl, label: {Label("Share on Facebook", image: "Facebook")})
-                            Link(destination: twitterUrl, label: {Label("Share on Twitter", image: "Twitter")})
-                            
-                        })
-                        
                     }
                 }
             }
