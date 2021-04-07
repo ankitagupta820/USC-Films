@@ -17,12 +17,12 @@ Backend server is built using Node.js (Express.js). <br/>
 App uses the API services from [The Movie Database](https://www.themoviedb.org/)<br/>
 
 ## :pushpin: Gallery
-|<img width="270" alt="home-movies" src="https://user-images.githubusercontent.com/65870621/113943380-6ee14b00-97b7-11eb-9a5f-45ae44b16bf6.png">|
-<img width="270" alt="search" src="https://user-images.githubusercontent.com/65870621/113943444-91736400-97b7-11eb-875b-0f72eb2e5b34.png">|
-<img width="270" alt="Details" src="https://user-images.githubusercontent.com/65870621/113943486-a8b25180-97b7-11eb-9c53-f46c1214b3aa.png">|
-<img width="270" alt="Reviews" src="https://user-images.githubusercontent.com/65870621/113943526-be277b80-97b7-11eb-9493-72ddd96d4472.png">|
-<img width="270" alt="watchlist" src="https://user-images.githubusercontent.com/65870621/113943565-d5666900-97b7-11eb-902b-a8e16109f59c.png">|
-<img width="270" alt="context" src="https://user-images.githubusercontent.com/65870621/113943649-f333ce00-97b7-11eb-90c7-a9f863c01c35.png">|
+|<img width="260" alt="home-movies" src="https://user-images.githubusercontent.com/65870621/113943380-6ee14b00-97b7-11eb-9a5f-45ae44b16bf6.png">|
+<img width="260" alt="search" src="https://user-images.githubusercontent.com/65870621/113943444-91736400-97b7-11eb-875b-0f72eb2e5b34.png">|
+<img width="260" alt="Details" src="https://user-images.githubusercontent.com/65870621/113943486-a8b25180-97b7-11eb-9c53-f46c1214b3aa.png">|
+<img width="260" alt="Reviews" src="https://user-images.githubusercontent.com/65870621/113943526-be277b80-97b7-11eb-9493-72ddd96d4472.png">|
+<img width="260" alt="watchlist" src="https://user-images.githubusercontent.com/65870621/113943565-d5666900-97b7-11eb-902b-a8e16109f59c.png">|
+<img width="260" alt="context" src="https://user-images.githubusercontent.com/65870621/113943649-f333ce00-97b7-11eb-90c7-a9f863c01c35.png">|
 
 ## :pushpin: Video Demo
 Checkout the Video Demo at below link.<br/>
