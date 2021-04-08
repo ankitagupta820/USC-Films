@@ -1,10 +1,12 @@
 
 # USC Films (iOS Application):movie_camera:
-The app is developed as an Assignment for students of CSCI571 Web Technologies (Spring 2021), USC.
+The app is developed as an Assignment for students of CSCI 571 Web Technologies (Spring 2021), University of Southern California.
+The app allows querying for movie and TV shows, view their description, add them to watchlist. It also allows to share the movie/TV show details on social media namely, Facebook and Twitter.  
+
 
 ## :pushpin: Features
 * Get all the Latest, Trending and Popular Movie and TV Show listings in one spot<br/>
-* Get access to Movie summaries, Generes, Release Dates, Cast and Crew Information, latest reviews and recommendations on movie titles. <br/>
+* Get access to Movie summaries, Genres, Release Dates, Cast and Crew Information, latest reviews and recommendations on movie titles. <br/>
 * Search Movie titles supported with Autocomplete suggestions.<br/>
 * Watch Movie trailers using in-built Youtube player with features - play, pause, expand, direct to Youtube <br/>
 * Build your Watchlist - add, remove and reorder titles<br/>
